@@ -1,6 +1,7 @@
 #define SUCCESS 	1
 #define FAIL 		0
 
+// Colors
 #define CL_RED 		0x00ff0000
 #define CL_GREEN 	0x0000ff00
 #define CL_BLUE 	0x000000ff

@@ -6,12 +6,14 @@
 void Canvas::update(){
 
 	// Demonstration of the circle
-	for (float t = 0; t < 2*M_PI; t = t + 0.01){
-		int x = 100*cos(t) + 250;
-		int y = 100*sin(t) + 250;
-		setPixel(x, y, CL_RED);
+	vec2 center{250, 250};
+	int count = 32;
+	for (float t = 0; t < count; t++){
+		vec2 pt_i{150*cos(2*M_PI/count*t),
+				  150*sin(2*M_PI/count*t)};
+		drawLine(center, ivec2(center + pt_i), CL_RED);
 	}
-	
+
 }
 
 
@@ -44,4 +46,36 @@ uint32 Canvas::getPixel(int x, int y){
 	asserting(x, y);
 	uint32 *pixels = (uint32*)surface->pixels;
     return pixels[(y * surface->w) + x];
+}
+
+
+void Canvas::drawLine(ivec2 pt_1, ivec2 pt_2, uint32 color){
+	// The Bresenham's line algorithm
+	// for every direction of line
+
+	float k;
+	if (pt_2.x-pt_1.x == 0)
+		k = 1000;
+	else 
+		k = float(pt_2.y-pt_1.y) / (pt_2.x-pt_1.x);
+	float b = -pt_1.x * k + pt_1.y;
+	bool key = abs(k) > 1? 1: 0;
+
+	ivec2 dir = pt_2 - pt_1;
+	ivec2 delta{dir.x > 0 ? 1: -1,
+				dir.y > 0 ? 1: -1};
+
+	ivec2 cord = pt_1;
+	float cord_real = pt_1[!key];
+	for (int i = pt_1[key]; i != pt_2[key]; i += delta[key]){
+		cord[key] = i;
+		if (key)
+			cord_real = (cord[1]-b)/k;
+		else
+			cord_real = k*cord[0] + b;
+		// printf("%f\n", cord_real);
+		if (abs(cord_real - cord[!key]) > 0.5)
+			cord[!key] += delta[!key];
+		setPixel(cord, color);
+	}
 }
