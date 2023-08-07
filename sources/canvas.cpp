@@ -6,12 +6,12 @@
 void Canvas::update(){
 
 	// Demonstration of the circle
-	vec2 center{250, 250};
+	vec3 center{250, 250, 1};
 	int count = 32;
 	for (float t = 0; t < count; t++){
-		vec2 pt_i{150*cos(2*M_PI/count*t),
-				  150*sin(2*M_PI/count*t)};
-		drawLine(center, ivec2(center + pt_i), CL_RED);
+		vec3 pt_i{150*cos(2*M_PI/count*t),
+				  150*sin(2*M_PI/count*t), 1};
+		drawLine(center, center + pt_i, CL_RED);
 	}
 
 }
@@ -27,7 +27,7 @@ void Canvas::asserting(int x, int y){
 }
 
 
-void Canvas::setPixel(ivec2 cord, uint32 color){
+void Canvas::setPixel(ivec3 cord, uint32 color){
 	setPixel(cord.x, cord.y, color);
 }
 
@@ -38,7 +38,7 @@ void Canvas::setPixel(int x, int y, uint32 color){
 }
 
 
-uint32 Canvas::getPixel(ivec2 cord){
+uint32 Canvas::getPixel(ivec3 cord){
 	return getPixel(cord.x, cord.y);
 }
 
@@ -49,7 +49,7 @@ uint32 Canvas::getPixel(int x, int y){
 }
 
 
-void Canvas::drawLine(ivec2 pt_1, ivec2 pt_2, uint32 color){
+void Canvas::drawLine(ivec3 pt_1, ivec3 pt_2, uint32 color){
 	// The Bresenham's line algorithm
 	// for every direction of line
 
@@ -61,11 +61,11 @@ void Canvas::drawLine(ivec2 pt_1, ivec2 pt_2, uint32 color){
 	float b = -pt_1.x * k + pt_1.y;
 	bool key = abs(k) > 1? 1: 0;
 
-	ivec2 dir = pt_2 - pt_1;
+	ivec3 dir = pt_2 - pt_1;
 	ivec2 delta{dir.x > 0 ? 1: -1,
 				dir.y > 0 ? 1: -1};
 
-	ivec2 cord = pt_1;
+	ivec3 cord = pt_1;
 	float cord_real = pt_1[!key];
 	for (int i = pt_1[key]; i != pt_2[key]; i += delta[key]){
 		cord[key] = i;
