@@ -9,6 +9,7 @@
 using namespace glm;
 
 #include "tools.h"
+#include "canvas.h"
 
 
 class Window{
@@ -31,18 +32,18 @@ class Window{
 	SDL_Texture *ptrTexture = NULL;
 	SDL_Surface *ptrSurface = NULL;
 
-	const int FPS = 60;
-
+	const int FPS = 60;													// Window FPS setting
 	const char* header = "Attention! High-risk zone. Do not enter!.";   // Window header
 	const vec2 resolution{500,500};                                     // Window resolution; vec2(width, height)
+	Canvas canvas;											// Canvas for drawing on
 
-	int init();
-	void close();
-	void event(bool*);                                                 
+	int init();															// Window initialization
+	void close();														// Window closing
+	void event(bool*);                          						// keyboard and mouse event processor                       
 
 	public:
 
-	void loop();
+	void loop();														// Infinity loop
 
 };
 

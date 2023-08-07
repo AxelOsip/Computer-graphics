@@ -1,7 +1,7 @@
 #include "window.h"
 
-int Window::init()
-{	
+int Window::init(){
+
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		return FAIL;
 
@@ -24,6 +24,8 @@ int Window::init()
 		return FAIL;
 
 	SDL_SetRenderDrawColor(ptrRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+
+	canvas.setSurface(ptrSurface);
 
 	return SUCCESS;
 };
@@ -61,7 +63,7 @@ void Window::loop(){
 		event(&quit);
 		SDL_RenderClear(ptrRenderer);
 
-		// canvas.update();
+		canvas.update();
 
 		SDL_UpdateTexture(ptrTexture, NULL, ptrSurface->pixels, ptrSurface->pitch);
 		SDL_RenderCopy(ptrRenderer, ptrTexture, NULL, NULL);
