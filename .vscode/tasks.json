@@ -1,0 +1,30 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "cppbuild",
+			"label": "C/C++: g++.exe build active file",
+			"command": "g++",			// Использование g++ компилятора
+			"args": [					// Аргументы при компиляции
+				"-g",						// Нечто связанное с дебагингом
+				"*.cpp",					// Подключение всех .cpp файлов в папке
+				"-I./include/SDL2",			// Подключение Include-файла SDL2
+				"-lmingw32", 				// Подключение lib-файла (Просто нужная штука)
+				"-lSDL2main",				// Подключение lib-файла SDL2
+				"-lSDL2",					// Подключение lib-файла SDL2
+				"-oprog.exe",				// Создание exe-файла (prog.exe)
+			],
+			"options": {
+				"cwd": "${fileDirname}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"detail": "compiler: D:/Soft/MinGW/bin/g++.exe"		// Путь к компилятору
+		}
+	]
+}
