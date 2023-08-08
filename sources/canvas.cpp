@@ -3,26 +3,30 @@
 
 void Canvas::update(){
 
-	Array<int> array(5, true);
+	// Array<int> array(5, true);
 	
-	for (int i = 0; i < 5; i++){
-		array[i] = i;	
-		printf("%d, ", array[i]);
-	}
-	printf("\n");
+	// for (int i = 0; i < 5; i++){
+	// 	array[i] = i;	
+	// 	printf("%d, ", array[i]);
+	// }
+	// printf("\n");
 
-	if(!array.resize(7))
-		abort();
+	// if(!array.resize(7))
+	// 	abort();
 
-	for (int i = 0; i < 7; i++){
-		array[i] = i;	
-		printf("%d, ", array[i]);
-	}
-	printf("\n");
+	// for (int i = 0; i < 7; i++){
+	// 	array[i] = i;	
+	// 	printf("%d, ", array[i]);
+	// }
+	// printf("\n");
 
-	printf("Press any button to exit.");
-	getchar();
-	exit(0);
+	drawCircle(ivec3(250,250,0), 150, CL_RED);
+
+	// printf("Press any button to exit.");
+	// getchar();
+	// exit(0);
+
+	
 	
 }
 
@@ -48,7 +52,7 @@ void Canvas::setPixel(int x, int y, uint32 color){
 	if (!asserting(x, y))
 		return;
 	uint32 *pixels = (uint32*)surface->pixels;
-	pixels[(y * surface->w) + x] = 0x00ff0000;
+	pixels[(y * surface->w) + x] = color;
 }
 
 
