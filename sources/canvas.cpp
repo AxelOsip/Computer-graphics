@@ -1,16 +1,29 @@
-
-
 #include "canvas.h"
 
 
 void Canvas::update(){
 
-	// Demonstration of the circle
-	vec3 center{250, 250, 1};
-	int radius = 150;
-	drawCircle(center, radius, CL_RED);
+	Array<int> array(5, true);
 	
+	for (int i = 0; i < 5; i++){
+		array[i] = i;	
+		printf("%d, ", array[i]);
+	}
+	printf("\n");
 
+	if(!array.resize(7))
+		abort();
+
+	for (int i = 0; i < 7; i++){
+		array[i] = i;	
+		printf("%d, ", array[i]);
+	}
+	printf("\n");
+
+	printf("Press any button to exit.");
+	getchar();
+	exit(0);
+	
 }
 
 
@@ -18,8 +31,8 @@ int Canvas::asserting(int x, int y){
 	// Temporary asserting invalid parameters
 	assert(surface != NULL);
 	if (x >= surface->w || y >= surface->h || x < 0 || y < 0)
-		return 1;
-	return 1;
+		return FAIL;
+	return SUCCESS;
 	// assert(x < surface->w);
     // assert(y < surface->h);
     // assert(x >= 0);

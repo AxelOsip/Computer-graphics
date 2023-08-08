@@ -4,6 +4,15 @@
         "fstream": "cpp",
         "cmath": "cpp",
         "chrono": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "array": "cpp",
+        "deque": "cpp",
+        "string": "cpp",
+        "vector": "cpp",
+        "unordered_map": "cpp",
+        "typeinfo": "cpp",
+        "initializer_list": "cpp",
+        "utility": "cpp",
+        "exception": "cpp"
     }
 }
