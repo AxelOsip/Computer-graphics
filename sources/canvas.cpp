@@ -3,31 +3,8 @@
 
 void Canvas::update(){
 
-	// Array<int> array(5, true);
-	
-	// for (int i = 0; i < 5; i++){
-	// 	array[i] = i;	
-	// 	printf("%d, ", array[i]);
-	// }
-	// printf("\n");
-
-	// if(!array.resize(7))
-	// 	abort();
-
-	// for (int i = 0; i < 7; i++){
-	// 	array[i] = i;	
-	// 	printf("%d, ", array[i]);
-	// }
-	// printf("\n");
-
 	drawCircle(ivec3(250,250,0), 150, CL_RED);
 
-	// printf("Press any button to exit.");
-	// getchar();
-	// exit(0);
-
-	
-	
 }
 
 

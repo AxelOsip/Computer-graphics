@@ -9,6 +9,7 @@
 using namespace glm;
 
 #include "tools.h"
+#include "smartArray.h"
 
 
 class Canvas{
