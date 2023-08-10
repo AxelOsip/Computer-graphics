@@ -1,4 +1,5 @@
 #pragma once
+
 #include <stdio.h>
 #include <malloc.h>
 #include <typeinfo>
@@ -6,15 +7,16 @@
 #include "tools.h"
 
 
-template <typename T>
+template <typename T> // Don't use in loop
 class Array{
+	// If it's need to pass Array to a function, use a links (&)
 
 	public:
 
 	Array(int size, bool resizeable = 0){
 		this->resizeable = resizeable;
 		this->size = size;
-		size_byte = sizeof(int);
+		size_byte = sizeof(T);
 		size_able = resizeable? size*2: size;
 		arr = (T*)malloc(size_byte * size_able);
 
