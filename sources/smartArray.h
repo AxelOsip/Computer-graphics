@@ -7,7 +7,7 @@
 #include "tools.h"
 
 
-template <typename T> // Don't use in loop
+template <typename T> // Don't use array in loops or use static array
 class Array{
 	// If it's need to pass Array to a function, use a links (&)
 
@@ -41,6 +41,8 @@ class Array{
 	int resize(int size_new){		// resizing array length
 		if (!resizeable)
 			return FAIL;
+		if (size == size_new)
+			return SUCCESS;
 		size = size_new;
 		if (size_able > size_new)
 			return SUCCESS;

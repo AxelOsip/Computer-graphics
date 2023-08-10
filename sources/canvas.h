@@ -20,22 +20,26 @@ class Canvas{
 	~Canvas(){};
 	void setSurface(SDL_Surface* surface){					// Setting surface
 		this->surface = surface;
+
+		for (int i = 0; i < 10; i++){
+			float angle = 2*M_PI/10*i;
+			int x = cos(angle)* (0.5 + 0.5*(i%2)) * 150;
+			int y = sin(angle)* (0.5 + 0.5*(i%2)) * 150;
+			poly[i] = ivec3(x+250,y+250,1);
+		}
 	}
 	void update();											// Updating canvas
 
 
 	private:
 
-	Array<ivec3> line_0 = Array<ivec3>(2);
-	Array<ivec3> line_1 = Array<ivec3>(2);
-	Array<ivec3> line_2 = Array<ivec3>(2);
-	Array<ivec3> line_3 = Array<ivec3>(2);
+	Array<ivec3> poly = Array<ivec3>(10);
 
 	SDL_Surface* surface;
 	int asserting(int x, int y);							// (!) Temporary asserting invalid parameters
 
-
-	void setPixel(ivec3 cord, uint32 color);				// Setting the color into canvas pixel; vec2{x, y} 
+	// Setting the color into canvas pixel; vec2{x, y}
+	void setPixel(ivec3 cord, uint32 color);  
 	void setPixel(int x, int y, uint32 color);				// Setting the color into canvas pixel; {x, y}
 
 	uint32 getPixel(ivec3 cord);							// Getting the colot from canvas pixel; vec2{x, y}
@@ -43,6 +47,7 @@ class Canvas{
 	
 	void drawLine(ivec3 pt_1, ivec3 pt_2, uint32 color);	// Drawing line between two points; vec2(x, y)
 	void drawCircle(ivec3 center, int radius, uint32 color);// Drawing Circle using center and radius;
+	void fillPoly(Array<ivec3> &pts, uint32 color);			// Filling area inside a poly
 
 	int crossPoint(Array<ivec3> &line_0, Array<ivec3> &line_1, ivec3 &cross);			// finding point of crossing of two lines (size=2)
 

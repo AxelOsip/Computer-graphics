@@ -6,7 +6,7 @@ using namespace glm;
 
 
 // Status
-#define SUCCESS 	1
+#define SUCCESS 	1	//sss
 #define FAIL 		0
 
 // Colors

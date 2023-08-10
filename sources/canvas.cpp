@@ -3,42 +3,8 @@
 
 void Canvas::update(){
 
-	ivec3 cross;
+	fillPoly(poly, CL_RED);
 	
-	line_0[0] = ivec3(50, 50, 1);
-	line_0[1] = ivec3(450, 450, 1);
-	drawLine(line_0[0], line_0[1], CL_RED);
-
-	line_1[0] = ivec3(450, 50, 1);
-	line_1[1] = ivec3(50, 450, 1);
-	drawLine(line_1[0], line_1[1], CL_RED);
-
-	line_2[0] = ivec3(100, 100, 1);
-	line_2[1] = ivec3(100, 400, 1);
-	drawLine(line_2[0], line_2[1], CL_RED);
-
-	line_3[0] = ivec3(150, 150, 1);
-	line_3[1] = ivec3(350, 150, 1);
-	drawLine(line_3[0], line_3[1], CL_RED);
-
-	if (crossPoint(line_0, line_1, cross))
-		drawCircle(cross, 10, CL_YELLOW);
-
-	if (crossPoint(line_0, line_2, cross))
-		drawCircle(cross, 10, CL_YELLOW);
-
-	if (crossPoint(line_0, line_3, cross))
-		drawCircle(cross, 10, CL_YELLOW);
-
-	if (crossPoint(line_1, line_2, cross))
-		drawCircle(cross, 10, CL_YELLOW);
-	
-	if (crossPoint(line_1, line_3, cross))
-		drawCircle(cross, 10, CL_YELLOW);
-
-	if (crossPoint(line_2, line_3, cross))
-		drawCircle(cross, 10, CL_YELLOW);
-
 }
 
 
@@ -46,7 +12,7 @@ int Canvas::asserting(int x, int y){
 	// Temporary asserting invalid parameters
 	assert(surface != NULL);
 	if (x >= surface->w || y >= surface->h || x < 0 || y < 0){
-		printf("Point is out of bounce");
+		// printf("Point is out of bounce\n");
 		return FAIL;
 	}
 	return SUCCESS;
@@ -139,6 +105,61 @@ void Canvas::drawCircle(ivec3 center, int radius, uint32 color){
 			setPixel(cord_mir, color);
 		}
 	}
+}
+
+void Canvas::fillPoly(Array<ivec3> &poly, uint32 color){
+	int y_max = poly[0].y;
+	int y_min = poly[0].y;
+	for (int i = 1; i < poly.size; i++){		// getting highest and lower y level
+		y_max = poly[i].y > y_max? poly[i].y: y_max;
+		y_min = poly[i].y < y_min? poly[i].y: y_min;
+	}
+
+	static Array<ivec3> scan(2);				// scanning horizontal line
+	static Array<ivec3> side(2);				// side of poly
+	static Array<ivec3> crosses(2, true);		// array of cross points of scan and poly
+
+	for (int y = y_min; y < y_max; y++){
+		// printf("%d \n", scan.size);
+		scan[0] = ivec3(0, y, 1);				// left point
+		scan[1] = ivec3(surface->w, y, 1);		// right point
+
+		size_t cross_count = 0;
+		
+		// finding crosses
+		for (int i = 0; i < poly.size; i++){
+			int j = (i+1) % poly.size;
+			side[0] = poly[i];
+			side[1] = poly[j];
+			// printf("%d, %d, %d, %d\n", side[0].x, side[0].y, side[1].x, side[1].y);
+			ivec3 cross;
+			if (crossPoint(scan, side, cross)){
+				// printf("%d\n",cross_count);
+				cross_count++;
+				crosses.resize((cross_count+1)/2*2);
+				crosses[cross_count-1] = cross;
+			}
+		}
+
+		
+		for (int i = 0; i < cross_count/2*2-1; i+=2){
+			
+			if (cross_count%2 == 1 && crosses[i].x == crosses[i+1].x)
+				i++;
+			drawLine(crosses[i], crosses[i+1], color);
+		}
+
+			
+
+
+		// drawLine(scan[0], scan[1], CL_BLUE);
+
+		// for (int i = 0; i < cross_count; i++){
+		// 	drawCircle(crosses[i], 15, CL_YELLOW);
+		// }
+
+	}
+
 }
 
 
