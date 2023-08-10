@@ -3,7 +3,41 @@
 
 void Canvas::update(){
 
-	drawCircle(ivec3(250,250,0), 150, CL_RED);
+	ivec3 cross;
+	
+	line_0[0] = ivec3(50, 50, 1);
+	line_0[1] = ivec3(450, 450, 1);
+	drawLine(line_0[0], line_0[1], CL_RED);
+
+	line_1[0] = ivec3(450, 50, 1);
+	line_1[1] = ivec3(50, 450, 1);
+	drawLine(line_1[0], line_1[1], CL_RED);
+
+	line_2[0] = ivec3(100, 100, 1);
+	line_2[1] = ivec3(100, 400, 1);
+	drawLine(line_2[0], line_2[1], CL_RED);
+
+	line_3[0] = ivec3(150, 150, 1);
+	line_3[1] = ivec3(350, 150, 1);
+	drawLine(line_3[0], line_3[1], CL_RED);
+
+	if (crossPoint(line_0, line_1, cross))
+		drawCircle(cross, 10, CL_YELLOW);
+
+	if (crossPoint(line_0, line_2, cross))
+		drawCircle(cross, 10, CL_YELLOW);
+
+	if (crossPoint(line_0, line_3, cross))
+		drawCircle(cross, 10, CL_YELLOW);
+
+	if (crossPoint(line_1, line_2, cross))
+		drawCircle(cross, 10, CL_YELLOW);
+	
+	if (crossPoint(line_1, line_3, cross))
+		drawCircle(cross, 10, CL_YELLOW);
+
+	if (crossPoint(line_2, line_3, cross))
+		drawCircle(cross, 10, CL_YELLOW);
 
 }
 
@@ -11,8 +45,10 @@ void Canvas::update(){
 int Canvas::asserting(int x, int y){
 	// Temporary asserting invalid parameters
 	assert(surface != NULL);
-	if (x >= surface->w || y >= surface->h || x < 0 || y < 0)
+	if (x >= surface->w || y >= surface->h || x < 0 || y < 0){
+		printf("Point is out of bounce");
 		return FAIL;
+	}
 	return SUCCESS;
 	// assert(x < surface->w);
     // assert(y < surface->h);
@@ -104,3 +140,37 @@ void Canvas::drawCircle(ivec3 center, int radius, uint32 color){
 		}
 	}
 }
+
+
+int Canvas::crossPoint(Array<ivec3> &line_0, Array<ivec3> &line_1, ivec3 &cross){
+	// Kramer's method for thee following equalities:
+	//
+	//	x_cross = x1 + (x2-x1)*t = x3 + (x4-x3)*k
+	//	y_cross = y1 + (y2-y1)*t = y3 + (y4-y3)*k
+	
+	int dx_0 = line_0[1].x - line_0[0].x;	// x2 - x1
+	int dx_1 = line_1[1].x - line_1[0].x;	// x4 - x3
+	
+	int dy_0 = line_0[1].y - line_0[0].y;	// y2 - y1
+	int dy_1 = line_1[1].y - line_1[0].y;	// y4 - y3
+
+	int dx_10 = line_1[0].x - line_0[0].x;	// x3 - x1
+	int dy_10 = line_1[0].y - line_0[0].y;	// y3 - y1
+
+	int det = dx_1 * dy_0 - dx_0 * dy_1;	// main determinant
+
+	if (!det)
+		return FAIL;	// lines are parallel
+	
+	int det_t = dx_1 * dy_10 - dx_10 * dy_1;
+	int det_k = dx_0 * dy_10 - dx_10 * dy_0;
+	float t = det_t / float(det);
+	float k = det_k / float(det);
+
+	if (t < 0 || t > 1 || k < 0|| k > 1)
+		return FAIL;	// lines don t crossover
+	cross.x = line_0[0].x + dx_0*t;
+	cross.y = line_0[0].y + dy_0*t;
+	return SUCCESS;
+}
+
