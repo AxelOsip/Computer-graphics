@@ -36,19 +36,18 @@ class Canvas{
 	Array<ivec3> poly{10}; 
 
 	SDL_Surface* surface;
-	int asserting(int x, int y);							// (!) Temporary asserting invalid parameters
-
-	// Setting the color into canvas pixel; vec2{x, y}
-	void setPixel(ivec3 cord, uint32 color);  
-	void setPixel(int x, int y, uint32 color);				// Setting the color into canvas pixel; {x, y}
-
-	uint32 getPixel(ivec3 cord);							// Getting the color from canvas pixel; vec2{x, y}
-	uint32 getPixel(int x, int y);							// Getting the color from canvas pixel; {x, y}
+	int asserting(int x, int y);							// (!) temporary asserting of parameters
 	
-	void drawLine(ivec3 pt_1, ivec3 pt_2, uint32 color);	// Drawing line between two points; vec2(x, y)
-	void drawCircle(ivec3 center, int radius, uint32 color);// Drawing circle using center and radius;
-	void drawPoly(Array<ivec3> &pts, uint32 color);			// Drawing poly
-	void fillPoly(Array<ivec3> &pts, uint32 color);			// Filling area inside a poly
+	void setPixel(ivec3 cord, uint32 color);  				// setting color into canvas pixel; vec2{x, y}
+	void setPixel(int x, int y, uint32 color);				// setting color into canvas pixel; {x, y}
+
+	uint32 getPixel(ivec3 cord);							// getting color from canvas pixel; vec2{x, y}
+	uint32 getPixel(int x, int y);							// getting color from canvas pixel; {x, y}
+	
+	void drawLine(ivec3 pt_1, ivec3 pt_2, uint32 color);	// drawing line between two points; vec2(x, y)
+	void drawCircle(ivec3 center, int radius, uint32 color);// drawing circle using center and radius;
+	void drawPoly(Array<ivec3> &pts, uint32 color);			// drawing poly
+	void fillPoly(Array<ivec3> &pts, uint32 color);			// filling area inside a poly
 
 	int crossPoint(Array<ivec3> &line_0, Array<ivec3> &line_1, ivec3 &cross);		// finding point of crossing of two lines (Array, size=2)
 	int crossPoint(ivec3 pt_1, ivec3 pt_2, ivec3 pt_3, ivec3 pt_4, ivec3 &cross);	// finding point of crossing of two lines (pt_1-pt_2, pt_3-pt_4)

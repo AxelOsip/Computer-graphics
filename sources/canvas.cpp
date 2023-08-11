@@ -5,6 +5,10 @@ void Canvas::update(){
 
 	fillPoly(poly, CL_RED);
 	drawPoly(poly, CL_YELLOW);
+
+	// ivec3 pt_1(50,50,1);
+	// ivec3 pt_2(250,150,1);
+	// drawLine(pt_1, pt_2, CL_RED);
 	
 }
 
@@ -46,31 +50,33 @@ uint32 Canvas::getPixel(int x, int y){
 
 void Canvas::drawLine(ivec3 pt_1, ivec3 pt_2, uint32 color){
 	// The Bresenham's line algorithm
-	// for every direction of line
+	// for every line direction
+	
+	setPixel(pt_1, color);
+	if (pt_1 == pt_2)
+		return;
+	
+	ivec3 dir = pt_2 - pt_1;		// direction vector
+	imat3 mirror = MAT_EYE;			// mirror matrix 
 
-	float k;
-	if (pt_2.x-pt_1.x == 0)
-		k = 1000;
-	else 
-		k = float(pt_2.y-pt_1.y) / (pt_2.x-pt_1.x);
+	if (dir.y < 0)
+		mirror = mirror * MAT_mir_Ox;
+	if (dir.x < 0)
+		mirror = mirror * MAT_mir_Oy;
+	if (abs(dir.y) > abs(dir.x))
+		mirror = mirror * MAT_mir_xy;
+	dir = dir * mirror;				// mirroring
+
+	float k = dir.y / float(dir.x);	// division by zero will never happen
 	float b = -pt_1.x * k + pt_1.y;
-	bool key = abs(k) > 1? 1: 0;
 
-	ivec3 dir = pt_2 - pt_1;
-	ivec2 delta{dir.x > 0 ? 1: -1,
-				dir.y > 0 ? 1: -1};
-
-	ivec3 cord = pt_1;
-	float cord_real = pt_1[!key];
-
-	for (int i = pt_1[key]; i != pt_2[key]; i += delta[key]){
-		cord[key] = i;
-		if (key)
-			cord_real = (cord[1]-b)/k;
-		else
-			cord_real = k*cord[0] + b;
-		if (abs(cord_real - cord[!key]) > 0.5)
-			cord[!key] += delta[!key];
+	float y_real = 0;
+	int y = 0;
+	for (int x = 0; x < dir.x; x++){
+		y_real += k;				// step in real
+		if (y_real - y > 0.5)		// check difference between real and approximated
+			y++;					// step in approximated
+		ivec3 cord = pt_1 + ivec3(x,y,0) * MAT_T(mirror);	// calc result point with mirroring back
 		setPixel(cord, color);
 	}
 }
@@ -178,7 +184,7 @@ int Canvas::crossPoint(ivec3 pt_1, ivec3 pt_2, ivec3 pt_3, ivec3 pt_4, ivec3 &cr
 	float k = det_k / float(det);
 
 	if (t < 0 || t > 1 || k < 0|| k > 1)
-		return FAIL;	// lines don t crossover
+		return FAIL;	// lines don't crossover
 	cross.x = pt_1.x + dx_0*t;
 	cross.y = pt_1.y + dy_0*t;
 	return SUCCESS;

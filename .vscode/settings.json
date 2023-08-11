@@ -15,6 +15,7 @@
         "utility": "cpp",
         "exception": "cpp",
         "iostream": "cpp",
-        "iosfwd": "cpp"
+        "iosfwd": "cpp",
+        "random": "cpp"
     }
 }
