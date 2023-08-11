@@ -119,7 +119,6 @@ void Canvas::fillPoly(Array<ivec3> &poly, uint32 color){
 	}
 
 	static Array<ivec3> scan(2);				// scanning horizontal line
-	static Array<ivec3> side(2);				// side of poly
 	static Array<ivec3> crosses(2, true);		// array of cross points of scan and poly
 
 	for (int y = y_min; y < y_max; y++){
@@ -131,52 +130,42 @@ void Canvas::fillPoly(Array<ivec3> &poly, uint32 color){
 		// finding crosses
 		for (int i = 0; i < poly.size; i++){
 			int j = (i+1) % poly.size;
-			side[0] = poly[i];
-			side[1] = poly[j];
 			ivec3 cross;
-			if (crossPoint(scan, side, cross)){
+			if (crossPoint(scan[0], scan[1], poly[i], poly[j], cross)){
 				cross_count++;
 				crosses.resize((cross_count+1)/2*2);
 				crosses[cross_count-1] = cross;
 			}
 		}
-
 		
+		// drawing horizontal line
 		for (int i = 0; i < cross_count/2*2-1; i+=2){
-			
 			if (cross_count%2 == 1 && crosses[i].x == crosses[i+1].x)
 				i++;
 			drawLine(crosses[i], crosses[i+1], color);
 		}
-
-			
-
-
-		// drawLine(scan[0], scan[1], CL_BLUE);
-
-		// for (int i = 0; i < cross_count; i++){
-		// 	drawCircle(crosses[i], 15, CL_YELLOW);
-		// }
-
 	}
-
 }
 
 
 int Canvas::crossPoint(Array<ivec3> &line_0, Array<ivec3> &line_1, ivec3 &cross){
-	// Kramer's method for thee following equalities:
+	return crossPoint(line_0[0], line_0[1], line_1[0], line_1[1], cross);
+}
+
+int Canvas::crossPoint(ivec3 pt_1, ivec3 pt_2, ivec3 pt_3, ivec3 pt_4, ivec3 &cross){
+	// 	Kramer's method for thee following equalities:
 	//
 	//	x_cross = x1 + (x2-x1)*t = x3 + (x4-x3)*k
 	//	y_cross = y1 + (y2-y1)*t = y3 + (y4-y3)*k
 	
-	int dx_0 = line_0[1].x - line_0[0].x;	// x2 - x1
-	int dx_1 = line_1[1].x - line_1[0].x;	// x4 - x3
+	int dx_0 = pt_2.x - pt_1.x;	// x2 - x1
+	int dx_1 = pt_4.x - pt_3.x;	// x4 - x3
 	
-	int dy_0 = line_0[1].y - line_0[0].y;	// y2 - y1
-	int dy_1 = line_1[1].y - line_1[0].y;	// y4 - y3
+	int dy_0 = pt_2.y - pt_1.y;	// y2 - y1
+	int dy_1 = pt_4.y - pt_3.y;	// y4 - y3
 
-	int dx_10 = line_1[0].x - line_0[0].x;	// x3 - x1
-	int dy_10 = line_1[0].y - line_0[0].y;	// y3 - y1
+	int dx_10 = pt_3.x - pt_1.x;	// x3 - x1
+	int dy_10 = pt_3.y - pt_1.y;	// y3 - y1
 
 	int det = dx_1 * dy_0 - dx_0 * dy_1;	// main determinant
 
@@ -190,8 +179,7 @@ int Canvas::crossPoint(Array<ivec3> &line_0, Array<ivec3> &line_1, ivec3 &cross)
 
 	if (t < 0 || t > 1 || k < 0|| k > 1)
 		return FAIL;	// lines don t crossover
-	cross.x = line_0[0].x + dx_0*t;
-	cross.y = line_0[0].y + dy_0*t;
+	cross.x = pt_1.x + dx_0*t;
+	cross.y = pt_1.y + dy_0*t;
 	return SUCCESS;
 }
-
