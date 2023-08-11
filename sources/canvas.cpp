@@ -4,6 +4,7 @@
 void Canvas::update(){
 
 	fillPoly(poly, CL_RED);
+	drawPoly(poly, CL_YELLOW);
 	
 }
 
@@ -100,6 +101,12 @@ void Canvas::drawCircle(ivec3 center, int radius, uint32 color){
 			cord_mir = cord_mir * MAT_shift(center.x, center.y);	// transport center back
 			setPixel(cord_mir, color);
 		}
+	}
+}
+
+void Canvas::drawPoly(Array<ivec3> &poly, uint32 color){
+	for (int i = 0; i < poly.size; i++){
+		drawLine(poly[i], poly[(i+1)%poly.size], color);
 	}
 }
 
