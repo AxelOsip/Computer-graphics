@@ -13,6 +13,8 @@
         "typeinfo": "cpp",
         "initializer_list": "cpp",
         "utility": "cpp",
-        "exception": "cpp"
+        "exception": "cpp",
+        "iostream": "cpp",
+        "iosfwd": "cpp"
     }
 }

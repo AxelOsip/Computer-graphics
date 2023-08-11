@@ -12,14 +12,10 @@ int Canvas::asserting(int x, int y){
 	// Temporary asserting invalid parameters
 	assert(surface != NULL);
 	if (x >= surface->w || y >= surface->h || x < 0 || y < 0){
-		// printf("Point is out of bounce\n");
+		cout << "Point is out of bounce\n";
 		return FAIL;
 	}
 	return SUCCESS;
-	// assert(x < surface->w);
-    // assert(y < surface->h);
-    // assert(x >= 0);
-    // assert(y >= 0);
 }
 
 
@@ -120,7 +116,6 @@ void Canvas::fillPoly(Array<ivec3> &poly, uint32 color){
 	static Array<ivec3> crosses(2, true);		// array of cross points of scan and poly
 
 	for (int y = y_min; y < y_max; y++){
-		// printf("%d \n", scan.size);
 		scan[0] = ivec3(0, y, 1);				// left point
 		scan[1] = ivec3(surface->w, y, 1);		// right point
 
@@ -131,10 +126,8 @@ void Canvas::fillPoly(Array<ivec3> &poly, uint32 color){
 			int j = (i+1) % poly.size;
 			side[0] = poly[i];
 			side[1] = poly[j];
-			// printf("%d, %d, %d, %d\n", side[0].x, side[0].y, side[1].x, side[1].y);
 			ivec3 cross;
 			if (crossPoint(scan, side, cross)){
-				// printf("%d\n",cross_count);
 				cross_count++;
 				crosses.resize((cross_count+1)/2*2);
 				crosses[cross_count-1] = cross;

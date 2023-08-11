@@ -1,6 +1,6 @@
-#include <stdio.h>
-#include <cassert>
+#include <iostream>
 #include <math.h>
+using namespace std;
 
 #include <SDL.h>
 
@@ -33,7 +33,7 @@ class Canvas{
 
 	private:
 
-	Array<ivec3> poly = Array<ivec3>(10);
+	Array<ivec3> poly{10}; 
 
 	SDL_Surface* surface;
 	int asserting(int x, int y);							// (!) Temporary asserting invalid parameters

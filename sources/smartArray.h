@@ -1,8 +1,9 @@
 #pragma once
 
-#include <stdio.h>
+#include <iostream>
 #include <malloc.h>
 #include <typeinfo>
+using namespace std;
 
 #include "tools.h"
 
@@ -20,8 +21,8 @@ class Array{
 		size_able = resizeable? size*2: size;
 		arr = (T*)malloc(size_byte * size_able);
 
-		if (!arr){					// Failed alloc
-			printf("Error to allicate array of '%s' type.\n", typeid(T).name());
+		if (!arr){					// Failed allocate
+			cout << "Error to allicate array of " << typeid(T).name() << " type.\n";
 			abort();
 		}
 	}
@@ -32,7 +33,7 @@ class Array{
 	
 	T& operator [] (int index){ 	// getting array element link with given index
 		if (index >= size || index < 0){
-			printf("\nInvalid index %d for array of '%s' type.\n", index, typeid(T).name());
+			cout << "\nInvalid index " << index << " for array of " << typeid(T).name() << " type.\n";
 			abort();
 		}
 		return arr[index];
