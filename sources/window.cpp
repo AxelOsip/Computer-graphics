@@ -25,7 +25,7 @@ int Window::init(){
 
 	SDL_SetRenderDrawColor(ptrRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 
-	canvas.setSurface(ptrSurface);
+	canvas.setSurface(*ptrSurface);
 	scene.setCanvas(canvas);
 
 	return SUCCESS;

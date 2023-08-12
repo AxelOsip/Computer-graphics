@@ -29,6 +29,6 @@ class Scene{
 	private:
 
 	Canvas canvas;
-	Camera camera{};
+	Camera camera;
 
 };

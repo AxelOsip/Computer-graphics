@@ -16,17 +16,17 @@ class Canvas{
 
 	public:
 
-	Canvas(){};
-	~Canvas(){};
-	void setSurface(SDL_Surface* surface){					// Setting surface
-		this->surface = surface;
-
+	Canvas(){
 		for (int i = 0; i < 10; i++){
 			float angle = 2*M_PI/10*i;
 			int x = cos(angle)* (0.5 + 0.5*(i%2)) * 150;
 			int y = sin(angle)* (0.5 + 0.5*(i%2)) * 150;
 			star[i] = ivec3(x+500,y,1);
 		}
+	};
+	~Canvas(){};
+	void setSurface(SDL_Surface surface){					// Setting surface
+		this->surface = surface;
 	}
 	void update();											// Updating canvas
 
@@ -41,7 +41,7 @@ class Canvas{
 		ivec3(-1,1,1)*150
 	}};
 
-	SDL_Surface* surface;
+	SDL_Surface surface;
 	int validation(int x, int y);							// check for valid data
 	
 	void setPixel(ivec3 cord, uint32 color);  				// setting color into canvas pixel; vec2{x, y}

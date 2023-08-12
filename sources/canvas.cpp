@@ -13,7 +13,7 @@ void Canvas::update(){
 
 
 int Canvas::validation(int x, int y){
-	if (x >= surface->w || y >= surface->h || x < 0 || y < 0){
+	if (x >= surface.w || y >= surface.h || x < 0 || y < 0){
 		cout << "Point is out of bounce\n";
 		return FAIL;
 	}
@@ -28,8 +28,8 @@ void Canvas::setPixel(ivec3 cord, uint32 color){
 void Canvas::setPixel(int x, int y, uint32 color){
 	// if (!validation(x, y))
 	// 	return;
-	uint32 *pixels = (uint32*)surface->pixels;
-	pixels[(y * surface->w) + x] = color;
+	uint32 *pixels = (uint32*)surface.pixels;
+	pixels[(y * surface.w) + x] = color;
 }
 
 
@@ -40,8 +40,8 @@ uint32 Canvas::getPixel(ivec3 cord){
 uint32 Canvas::getPixel(int x, int y){
 	if (!validation(x, y))
 		return CL_BLACK;
-	uint32 *pixels = (uint32*)surface->pixels;
-    return pixels[(y * surface->w) + x];
+	uint32 *pixels = (uint32*)surface.pixels;
+    return pixels[(y * surface.w) + x];
 }
 
 
@@ -199,11 +199,11 @@ int Canvas::getSect(ivec3 pt){
 	int sect = 0;	 
 	if (pt.x < 0)
 		sect += 1;
-	else if (pt.x >= surface->w)
+	else if (pt.x >= surface.w)
 		sect += 4;
 	if (pt.y < 0)
 		sect += 2;
-	else if (pt.y >= surface->h)
+	else if (pt.y >= surface.h)
 		sect += 8;
 	return sect;
 }
@@ -222,10 +222,10 @@ int Canvas::cutLine(ivec3 &pt_1, ivec3 &pt_2){
 		return FAIL;
 	
 	const static ivec3 corners[4] = {		// canvas corners
-		ivec3(0, surface->h-1, 1),
+		ivec3(0, surface.h-1, 1),
 		ivec3(0, 0, 1),
-		ivec3(surface->w-1, 0, 1),
-		ivec3(surface->w-1, surface->h-1, 1)
+		ivec3(surface.w-1, 0, 1),
+		ivec3(surface.w-1, surface.h-1, 1)
 	};
 	static ivec3 cross;
 
