@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 using namespace std;
 
@@ -9,9 +10,19 @@ using namespace glm;
 
 #include "tools.h"
 #include "smartArray.h"
+#include "canvas.h"
 
 
 class Camera{
+	public:
+
 	Camera(){};
 	~Camera(){};
+
+	
+	private:
+
+	vec4 position{0,0,0,0};
+	vec4 direction = FORWARD;
+
 };

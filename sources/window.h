@@ -10,6 +10,7 @@ using namespace glm;
 
 #include "tools.h"
 #include "canvas.h"
+#include "scene.h"
 
 
 class Window{
@@ -35,7 +36,8 @@ class Window{
 	const int FPS = 60;													// Window FPS setting
 	const char* header = "Attention! High-risk zone. Do not enter!.";   // Window header
 	const vec2 resolution{500,500};                                     // Window resolution; vec2(width, height)
-	Canvas canvas;											// Canvas for drawing on
+	Canvas canvas;														// Canvas for drawing on (2D)
+	Scene scene;														// Scene for for placement objects (3D)
 
 	int init();															// Window initialization
 	void close();														// Window closing

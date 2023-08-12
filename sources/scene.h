@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 using namespace std;
 
@@ -9,8 +10,6 @@ using namespace glm;
 
 #include "tools.h"
 #include "smartArray.h"
-
-#include "canvas.h"
 #include "camera.h"
 
 
@@ -18,8 +17,18 @@ class Scene{
 
 	public:
 
-	Scene(Canvas canvas){
-		Camera camera();
-	}
+	Scene(){}
 	~Scene(){}
+	void setCanvas(Canvas &canvas){
+		this->canvas = canvas;
+	}
+
+	void update();
+
+	
+	private:
+
+	Canvas canvas;
+	Camera camera{};
+
 };

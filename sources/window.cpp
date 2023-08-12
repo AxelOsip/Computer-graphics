@@ -26,6 +26,7 @@ int Window::init(){
 	SDL_SetRenderDrawColor(ptrRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 
 	canvas.setSurface(ptrSurface);
+	scene.setCanvas(canvas);
 
 	return SUCCESS;
 };
@@ -63,7 +64,8 @@ void Window::loop(){
 		event(&quit);
 		SDL_RenderClear(ptrRenderer);
 
-		canvas.update();
+		scene.update();			// 3D-dimension
+		// canvas.update();		// 2D-dimension
 
 		SDL_UpdateTexture(ptrTexture, NULL, ptrSurface->pixels, ptrSurface->pitch);
 		SDL_RenderCopy(ptrRenderer, ptrTexture, NULL, NULL);
