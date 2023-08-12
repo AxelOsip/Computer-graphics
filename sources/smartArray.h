@@ -27,6 +27,22 @@ class Array{
 		}
 	}
 
+	Array(int size, T *data, bool resizeable = 0){
+		this->resizeable = resizeable;
+		this->size = size;
+		size_byte = sizeof(T);
+		size_able = resizeable? size*2: size;
+		arr = (T*)malloc(size_byte * size_able);
+
+		if (!arr){					// Failed allocate
+			cout << "Error to allicate array of " << typeid(T).name() << " type.\n";
+			abort();
+		}
+
+		for (int i = 0; i < size; i++)
+			arr[i] = data[i];
+	}
+
 	~Array(){
 		free(arr);
 	}

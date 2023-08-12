@@ -25,7 +25,7 @@ class Canvas{
 			float angle = 2*M_PI/10*i;
 			int x = cos(angle)* (0.5 + 0.5*(i%2)) * 150;
 			int y = sin(angle)* (0.5 + 0.5*(i%2)) * 150;
-			poly[i] = ivec3(x+250,y+250,1);
+			star[i] = ivec3(x+500,y,1);
 		}
 	}
 	void update();											// Updating canvas
@@ -33,10 +33,16 @@ class Canvas{
 
 	private:
 
-	Array<ivec3> poly{10}; 
+	Array<ivec3> star{10};
+	Array<ivec3> square{4, new ivec3[4]{
+		ivec3(-1,-1,1)*150,
+		ivec3(1,-1,1)*150,
+		ivec3(1,1,1)*150,
+		ivec3(-1,1,1)*150
+	}};
 
 	SDL_Surface* surface;
-	int asserting(int x, int y);							// (!) temporary asserting of parameters
+	int validation(int x, int y);							// check for valid data
 	
 	void setPixel(ivec3 cord, uint32 color);  				// setting color into canvas pixel; vec2{x, y}
 	void setPixel(int x, int y, uint32 color);				// setting color into canvas pixel; {x, y}
@@ -51,5 +57,8 @@ class Canvas{
 
 	int crossPoint(Array<ivec3> &line_0, Array<ivec3> &line_1, ivec3 &cross);		// finding point of crossing of two lines (Array, size=2)
 	int crossPoint(ivec3 pt_1, ivec3 pt_2, ivec3 pt_3, ivec3 pt_4, ivec3 &cross);	// finding point of crossing of two lines (pt_1-pt_2, pt_3-pt_4)
+	
+	int getSect(ivec3 pt);									// getting sector for Cohen algorithm  
+	int cutLine(ivec3 &pt_1, ivec3 &pt_2);					// cutting line to fit the window
 
 };
