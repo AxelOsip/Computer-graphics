@@ -4,3 +4,7 @@
 void Scene::update(){
 	canvas.update();
 }
+
+void drawObject(Object obj){
+	
+}

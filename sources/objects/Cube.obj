@@ -1,0 +1,44 @@
+# Cube example
+
+# points
+
+v 0 0 0
+v 0 0 1
+v 0 1 1
+v 0 1 0
+v 1 0 0
+v 1 0 1
+v 1 1 1
+v 1 1 0
+
+# normals
+
+vn -1 0 0
+vn 0 -1 0
+vn 0 0 -1
+vn 1 0 0
+vn 0 1 0
+vn 0 0 1
+
+
+g cube
+s 1
+f 1 2 3
+f 1 4 3
+s 2
+f 1 2 6
+f 1 5 6
+s 3
+f 1 4 8
+f 1 5 8
+s 4
+f 7 3 2
+f 7 6 2
+s 5
+f 7 3 4
+f 7 8 4
+s 6
+f 7 6 5
+f 7 8 5
+
+

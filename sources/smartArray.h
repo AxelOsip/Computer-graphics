@@ -15,16 +15,21 @@ class Array{
 	public:
 
 	Array(int size, bool resizeable = 0){
-		this->resizeable = resizeable;
+		if (size == 0){
+			this->resizeable = 1;
+			size_able = 10;
+		}
+		else{
+			this->resizeable = resizeable;
+			size_able = resizeable? size*2: size;
+		}
 		this->size = size;
 		size_byte = sizeof(T);
-		size_able = resizeable? size*2: size;
+		
 		arr = (T*)malloc(size_byte * size_able);
 
-		if (!arr){					// Failed allocate
-			cout << "Error to allicate array of " << typeid(T).name() << " type.\n";
-			abort();
-		}
+		if (!arr)					// allocate failing 
+			aborting("allocate failing");
 	}
 
 	Array(int size, T *data, bool resizeable = 0){
@@ -34,13 +39,12 @@ class Array{
 		size_able = resizeable? size*2: size;
 		arr = (T*)malloc(size_byte * size_able);
 
-		if (!arr){					// Failed allocate
-			cout << "Error to allicate array of " << typeid(T).name() << " type.\n";
-			abort();
-		}
+		if (!arr)					// allocate failing 
+			aborting("allocate failing");
 
 		for (int i = 0; i < size; i++)
 			arr[i] = data[i];
+		delete [] data;
 	}
 
 	~Array(){
@@ -48,12 +52,16 @@ class Array{
 	}
 	
 	T& operator [] (int index){ 	// getting array element link with given index
-		if (index >= size || index < 0){
-			cout << "\nInvalid index " << index << " for array of " << typeid(T).name() << " type.\n";
-			abort();
+		if (index < 0)
+			aborting("invalid index");
+		if (index >= size){
+			if(!resize(index)){
+				aborting("resize failing");
+			}
 		}
 		return arr[index];
 	}
+
 
 	int resize(int size_new){		// resizing array length
 		if (!resizeable)
@@ -70,6 +78,14 @@ class Array{
 			return FAIL;
 		return SUCCESS;	
 	}
+
+
+	void aborting(const char* letter){
+		cout << "Array error: " << letter << endl;
+		cout << "In " << typeid(T).name() << " type.\n";
+		abort();
+	}
+
 
 	int size;						// able area (elements)
 	

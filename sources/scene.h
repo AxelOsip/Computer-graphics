@@ -10,7 +10,9 @@ using namespace glm;
 
 #include "tools.h"
 #include "smartArray.h"
+#include "canvas.h"
 #include "camera.h"
+#include "object.h"
 
 
 class Scene{
@@ -24,9 +26,11 @@ class Scene{
 	}
 
 	void update();
-
+	void drawObject(Object obj);
 	
 	private:
+
+	Object cube;
 
 	Canvas canvas;
 	Camera camera;
