@@ -14,6 +14,7 @@ using namespace glm;
 class Object{
 
 	public:
+
 	Object(){
 		const char* path = "objects/cube.obj";
 		file.open(path);
@@ -23,8 +24,8 @@ class Object{
 		}
 		readFile(file);
 		file.close();
-	}
-	~Object(){}
+	};
+	~Object(){};
 
 	void readFile(ifstream &file);
 
@@ -34,5 +35,5 @@ class Object{
 	Array<vec3> connections{0};
 	Array<vec4> normals{0};
 
-	mat3 matrix = MAT_EYE * 150;		// transformation matrix
+	mat4 matrix = imat4(100,0,0,0, 0,100,0,0, 0,0,100,0, 0,0,0,1) * MAT4_shift(250,250,0);		// transformation matrix
 };

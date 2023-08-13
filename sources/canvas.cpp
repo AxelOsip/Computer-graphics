@@ -56,14 +56,14 @@ void Canvas::drawLine(ivec3 pt_1, ivec3 pt_2, uint32 color){
 		return;
 	
 	ivec3 dir = pt_2 - pt_1;		// direction vector
-	imat3 mirror = MAT_EYE;			// mirror matrix 
+	imat3 mirror = MAT3_EYE;			// mirror matrix 
 
 	if (dir.y < 0)
-		mirror = mirror * MAT_mir_Ox;
+		mirror = mirror * MAT3_mir_Ox;
 	if (dir.x < 0)
-		mirror = mirror * MAT_mir_Oy;
+		mirror = mirror * MAT3_mir_Oy;
 	if (abs(dir.y) > abs(dir.x))
-		mirror = mirror * MAT_mir_xy;
+		mirror = mirror * MAT3_mir_xy;
 	dir = dir * mirror;				// mirroring
 
 	float k = dir.y / float(dir.x);	// division by zero will never happen
@@ -75,7 +75,7 @@ void Canvas::drawLine(ivec3 pt_1, ivec3 pt_2, uint32 color){
 		y_real += k;				// step in real
 		if (y_real - y > 0.5)		// check difference between real and approximated
 			y++;					// step in approximated
-		ivec3 cord = pt_1 + ivec3(x,y,0) * MAT_T(mirror);	// calc result point with mirroring back
+		ivec3 cord = pt_1 + ivec3(x,y,0) * MAT3_T(mirror);	// calc result point with mirroring back
 		setPixel(cord, color);
 	}
 }
@@ -96,14 +96,14 @@ void Canvas::drawCircle(ivec3 center, int radius, uint32 color){
 		// Calculating others segments of the circle
 		for (int j = 0; j < 8; j++){
 			ivec3 cord_mir = cord;
-			cord_mir = cord_mir * MAT_shift(-center.x, -center.y);	// transport center to the (0, 0) cord 
+			cord_mir = cord_mir * MAT3_shift(-center.x, -center.y);	// transport center to the (0, 0) cord 
 			if (j & 1)
-				cord_mir = cord_mir * MAT_mir_Ox;					// mirroring Ox
+				cord_mir = cord_mir * MAT3_mir_Ox;					// mirroring Ox
 			if (j & 2)
-				cord_mir = cord_mir * MAT_mir_Oy;					// mirroring Oy
+				cord_mir = cord_mir * MAT3_mir_Oy;					// mirroring Oy
 			if (j & 4)
-				cord_mir = cord_mir * MAT_mir_xy;					// mirroring xy
-			cord_mir = cord_mir * MAT_shift(center.x, center.y);	// transport center back
+				cord_mir = cord_mir * MAT3_mir_xy;					// mirroring xy
+			cord_mir = cord_mir * MAT3_shift(center.x, center.y);	// transport center back
 			setPixel(cord_mir, color);
 		}
 	}

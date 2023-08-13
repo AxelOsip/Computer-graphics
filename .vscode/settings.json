@@ -16,6 +16,8 @@
         "exception": "cpp",
         "iostream": "cpp",
         "iosfwd": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "istream": "cpp",
+        "new": "cpp"
     }
 }

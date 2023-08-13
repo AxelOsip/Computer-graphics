@@ -55,7 +55,7 @@ class Array{
 		if (index < 0)
 			aborting("invalid index");
 		if (index >= size){
-			if(!resize(index)){
+			if(!resize(index+1)){
 				aborting("resize failing");
 			}
 		}

@@ -10,7 +10,6 @@ void Object::readFile(ifstream &file){
 							//				3 - connections
 
 	while(file.get(ch)){
-		// cout << ch;
 		if (ch == '#'){		// skip comments
 			status = 0;
 			while(file.get(ch)){
@@ -32,7 +31,6 @@ void Object::readFile(ifstream &file){
 			status = 0;
 		
 		if (status == 1){		// points
-			cout << "read points:\n";
 			int i = points.size;
 			for (int j = 0; j < 3; j++){
 				file >> num;
@@ -41,8 +39,7 @@ void Object::readFile(ifstream &file){
 			points[i][3] = 1;
 		}
 
-		if (status == 2){		// polygon normals
-			cout << "read normals:\n";
+		if (status == 2){		// normals
 			int i = normals.size;
 			for (int j = 0; j < 3; j++){
 				file >> num;
@@ -52,11 +49,10 @@ void Object::readFile(ifstream &file){
 		}
 
 		if (status == 3){		// connections
-			cout << "read connections:\n";
 			int i = connections.size;
 			for (int j = 0; j < 3; j++){
 				file >> num;
-				connections[i][j] = num;
+				connections[i][j] = num-1;
 			}
 		}
 	}

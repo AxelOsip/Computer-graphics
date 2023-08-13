@@ -26,9 +26,11 @@ class Scene{
 	}
 
 	void update();
-	void drawObject(Object obj);
-	
+	ivec3 projection(vec4 pt);
+
 	private:
+
+	void drawObj(Object &obj);
 
 	Object cube;
 
