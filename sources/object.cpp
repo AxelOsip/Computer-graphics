@@ -57,3 +57,26 @@ void Object::readFile(ifstream &file){
 		}
 	}
 }
+
+
+void Object::setMatrix(int s, int dx, int dy, int dz){
+	center = vec4(dx,dy,dz,1);
+	matrix = mat4(	s,0,0,dx,
+					0,s,0,dy,
+					0,0,s,dz,
+					0,0,0,1);
+}
+
+void Object::scale(float s){
+	matrix = matrix * MAT4_shift(-center.x, -center.y, -center.z);
+	matrix = matrix * mat4(	s,0,0,0,
+							0,s,0,0,
+							0,0,s,0,
+							0,0,0,1);
+	matrix = matrix * MAT4_shift(center.x, center.y, center.z);
+}
+
+void Object::shift(int dx, int dy, int dz){
+	center = center * MAT4_shift(dx,dy,dz);
+	matrix = matrix * MAT4_shift(dx,dy,dz);
+}

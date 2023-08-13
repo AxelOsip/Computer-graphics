@@ -15,8 +15,8 @@ class Object{
 
 	public:
 
-	Object(){
-		const char* path = "objects/cube.obj";
+	Object(const char* path){
+		ifstream file;
 		file.open(path);
 		if (!file.is_open()){
 			cout << "cannot open file: " << path;
@@ -28,12 +28,14 @@ class Object{
 	~Object(){};
 
 	void readFile(ifstream &file);
-
-	ifstream file;
+	void setMatrix(int size, int dx, int dy, int dz);
+	void scale(float scale);
+	void shift(int dx, int dy, int dz);
 
 	Array<vec4> points{0};
 	Array<vec3> connections{0};
 	Array<vec4> normals{0};
 
-	mat4 matrix = imat4(100,0,0,0, 0,100,0,0, 0,0,100,0, 0,0,0,1) * MAT4_shift(250,250,0);		// transformation matrix
+	vec4 center{0,0,0,0};		// center point
+	mat4 matrix = MAT4_EYE;		// transform matrix
 };

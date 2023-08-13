@@ -29,8 +29,8 @@ using namespace glm;
 #define MAT3_rot_ctclw(a) 		mat3(cos(a),-sin(a),1, cos(a),sin(a),1, 0,0,1)	// rotating matrix counterclockwise (↺)
 #define MAT3_T(m)				imat3(m[0][0],m[1][0],m[2][0], m[0][1],m[1][1],m[2][1], m[0][2],m[1][2],m[2][2]);	// transpose matrix
 
-#define MAT4_EYE					imat4(1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1)		// eye matrix
-#define MAT4_shift(dx, dy, dz)		imat4(1,0,0,dx, 0,1,0,dy, 0,0,1,dz, 0,0,0,1)	// transporting matrix to the (dx, dy) local cords
+#define MAT4_EYE					mat4(1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1)	// eye matrix
+#define MAT4_shift(dx, dy, dz)		mat4(1,0,0,dx, 0,1,0,dy, 0,0,1,dz, 0,0,0,1)	// transporting matrix to the (dx, dy) local cords
 
 // Directions
 #define FORWARD					vec4(0,0,0,1)

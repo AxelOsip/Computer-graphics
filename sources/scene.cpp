@@ -16,12 +16,6 @@ ivec3 Scene::projection(vec4 pt){
 
 
 void Scene::drawObj(Object &obj){
-
-	for (int i = 0; i < 4; i++)
-		for (int j = 0; j < 4; j++)
-			cout << obj.matrix[i][j] << " ";
-	cout << endl;
-
 	for (int i = 0; i < obj.connections.size; i++){
 		for (int j = 0; j < 3; j++){
 			vec4 pt_1 = obj.points[obj.connections[i][j]] * obj.matrix;

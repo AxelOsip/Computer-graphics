@@ -19,7 +19,11 @@ class Scene{
 
 	public:
 
-	Scene(){}
+	Scene(){
+		cube.setMatrix(100, 250,250,1);
+		// cube.scale(1.5);
+		// cube.shift(150,0,0);
+	}
 	~Scene(){}
 	void setCanvas(Canvas &canvas){
 		this->canvas = canvas;
@@ -32,7 +36,7 @@ class Scene{
 
 	void drawObj(Object &obj);
 
-	Object cube;
+	Object cube{"objects/cube.obj"};
 
 	Canvas canvas;
 	Camera camera;
