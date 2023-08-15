@@ -20,7 +20,8 @@ class Scene{
 	public:
 
 	Scene(){
-		cube.setMatrix(100, 250,250,1);
+		cube.setMatrix(100, 250,250,250);
+		camera.rotate(0.3, 0.2);
 		// cube.scale(1.5);
 		// cube.shift(150,0,0);
 	}

@@ -11,7 +11,8 @@ void Scene::update(){
 
 
 ivec3 Scene::projection(vec4 pt){
-	return ivec3(pt.x, pt.y, 0);
+	return camera.projection(pt);
+	// return ivec3(pt.x, pt.y, 0);
 }
 
 

@@ -1,5 +1,8 @@
 #pragma once
 
+#include <iostream>
+using namespace std;
+
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 using namespace glm;
@@ -31,8 +34,31 @@ using namespace glm;
 
 #define MAT4_EYE					mat4(1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1)	// eye matrix
 #define MAT4_shift(dx, dy, dz)		mat4(1,0,0,dx, 0,1,0,dy, 0,0,1,dz, 0,0,0,1)	// transporting matrix to the (dx, dy) local cords
+#define MAT4_rot_Ox(a)				mat4(1,0,0,0, 0,cos(a),sin(a),0, 0,-sin(a),cos(a),0, 0,0,0,1)	// rotating matrix around Ox axis
+#define MAT4_rot_Oy(a)				mat4(cos(a),0,sin(a),0, 0,1,0,0, -sin(a),0,cos(a),0, 0,0,0,1)	// rotating matrix around Ox axis
+#define MAT4_rot_Oz(a)				mat4(cos(a),sin(a),0,0, -sin(a),cos(a),0,0, 0,0,1,0, 0,0,0,1)	// rotating matrix around Ox axis
+
 
 // Directions
-#define FORWARD					vec4(0,0,0,1)
-#define UP						vec4(0,0,-1,0)
-#define RIGHT					vec4(0,1,0,0)
+#define RIGHT					vec4(1,0,0,0)
+#define UP						vec4(0,1,0,0)
+#define FORWARD					vec4(0,0,1,0)
+#define W_DIR					vec4(0,0,0,1)
+
+// Functions
+template<length_t N>
+void mat_debug(mat<N, N, f32, defaultp> m){
+	for (int i = 0; i < N; i++){
+		for (int j = 0; j < N; j++)
+			cout << m[i][j] << " ";
+		cout << endl;
+	}
+	cout << endl;
+}
+
+template<length_t N>
+void vec_debug(vec<N, float, defaultp> v){
+	for (int i = 0; i < N; i++)
+		cout << v[i] << " ";
+	cout << endl;
+}

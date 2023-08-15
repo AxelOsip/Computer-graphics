@@ -19,10 +19,16 @@ class Camera{
 	Camera(){};
 	~Camera(){};
 
+	ivec3 projection(vec4 pt);						// project point to camera surface
+	void rotate(float angle_Ox, float angle_Oy);	// rotate camera (angle in radians)
 	
 	private:
 
 	vec4 position{0,0,0,0};
-	vec4 direction = FORWARD;
+
+	// projection surface local direction
+	vec4 right = RIGHT;			// local x
+	vec4 up = UP;				// local y
+	vec4 forward = FORWARD;		// local z
 
 };
