@@ -52,6 +52,10 @@ void Window::event(bool* quit){
 			*quit = true;
 			return;
 		}
+		if (event.type == SDL_KEYDOWN){
+			int key = event.key.keysym.scancode;
+			scene.control(key);
+		}
 	}
 }
 

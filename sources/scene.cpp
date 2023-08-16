@@ -2,11 +2,23 @@
 
 
 void Scene::update(){
-	// canvas.update();
-	// drawObj(cube);
-	drawObj(cube);
-	// cube;
+	canvas.update();
 
+	drawObj(cube);
+
+}
+
+
+void Scene::control(int key){
+	cout << key << " ";
+	if (key == SDL_SCANCODE_W)
+		camera.shift(0, 0, step);
+	else if (key == SDL_SCANCODE_S)
+		camera.shift(0, 0, -step);
+	if (key == SDL_SCANCODE_A)
+		camera.shift(-step, 0, 0);
+	else if (key == SDL_SCANCODE_D)
+		camera.shift(step, 0, 0);
 }
 
 

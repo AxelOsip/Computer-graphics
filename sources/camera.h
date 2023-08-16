@@ -21,10 +21,11 @@ class Camera{
 
 	ivec3 projection(vec4 pt);						// project point to camera surface
 	void rotate(float angle_Ox, float angle_Oy);	// rotate camera (angle in radians)
+	void shift(float dx, float dy, float dz);				// shift camera
 	
 	private:
 
-	vec4 position{0,0,0,0};
+	vec4 position{0,0,0,1};
 
 	// projection surface local direction
 	vec4 right = RIGHT;			// local x

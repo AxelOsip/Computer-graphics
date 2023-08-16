@@ -2,13 +2,7 @@
 
 
 void Canvas::update(){
-
-	fillPoly(star, CL_RED);
-	drawPoly(star, CL_YELLOW);
-
-	fillPoly(square, CL_BLUE);
-	drawPoly(square, CL_CYAN);
-	
+	clear();
 }
 
 
@@ -18,6 +12,13 @@ int Canvas::validation(int x, int y){
 		return FAIL;
 	}
 	return SUCCESS;
+}
+
+
+void Canvas::clear(){
+	for (int x = 0; x < surface.w; x++)
+		for (int y = 0; y < surface.h; y++)
+			setPixel(x, y, CL_BLACK);
 }
 
 

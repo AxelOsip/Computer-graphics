@@ -31,15 +31,19 @@ class Scene{
 	}
 
 	void update();
-	ivec3 projection(vec4 pt);
+	void control(int key);
+
 
 	private:
 
 	void drawObj(Object &obj);
+	ivec3 projection(vec4 pt);
 
 	Object cube{"objects/cube.obj"};
 
 	Canvas canvas;
 	Camera camera;
+
+	float step = 1;		// move step per frame
 
 };

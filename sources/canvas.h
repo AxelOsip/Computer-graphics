@@ -16,14 +16,7 @@ class Canvas{
 
 	public:
 
-	Canvas(){
-		for (int i = 0; i < 10; i++){
-			float angle = 2*M_PI/10*i;
-			int x = cos(angle)* (0.5 + 0.5*(i%2)) * 150;
-			int y = sin(angle)* (0.5 + 0.5*(i%2)) * 150;
-			star[i] = ivec3(x+500,y,1);
-		}
-	};
+	Canvas(){};
 	~Canvas(){};
 	void setSurface(SDL_Surface surface){					// Setting surface
 		this->surface = surface;
@@ -36,18 +29,14 @@ class Canvas{
 	void drawPoly(Array<ivec3> &pts, uint32 color);			// drawing poly
 	void fillPoly(Array<ivec3> &pts, uint32 color);			// filling area inside a poly
 
+
 	private:
 
-	Array<ivec3> star{10};
-	Array<ivec3> square{4, new ivec3[4]{
-		ivec3(-1,-1,1)*150,
-		ivec3(1,-1,1)*150,
-		ivec3(1,1,1)*150,
-		ivec3(-1,1,1)*150
-	}};
 
 	SDL_Surface surface;
 	int validation(int x, int y);							// check for valid data
+
+	void clear();											// clear canvas
 	
 	void setPixel(ivec3 cord, uint32 color);  				// setting color into canvas pixel; vec2{x, y}
 	void setPixel(int x, int y, uint32 color);				// setting color into canvas pixel; {x, y}
