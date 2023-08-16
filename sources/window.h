@@ -41,7 +41,7 @@ class Window{
 
 	int init();															// Window initialization
 	void close();														// Window closing
-	void event(bool*);                          						// keyboard and mouse event processor                       
+	void event(bool&);                          						// keyboard and mouse event processor                       
 
 	public:
 

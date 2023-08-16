@@ -21,7 +21,7 @@ class Scene{
 
 	Scene(){
 		cube.setMatrix(100, 250,250,250);
-		camera.rotate(0.3, 0.2);
+		// camera.rotate(0.3, 0.2);
 		// cube.scale(1.5);
 		// cube.shift(150,0,0);
 	}
@@ -32,6 +32,7 @@ class Scene{
 
 	void update();
 	void control(int key);
+	void control(int x, int y);
 
 
 	private:
@@ -44,6 +45,7 @@ class Scene{
 	Canvas canvas;
 	Camera camera;
 
-	float step = 1;		// move step per frame
+	float step = 5;		// move step per frame
+	float sensitivity = 1;		// move step per frame
 
 };

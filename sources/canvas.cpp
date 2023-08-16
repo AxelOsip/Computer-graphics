@@ -3,12 +3,19 @@
 
 void Canvas::update(){
 	clear();
+
+	// ivec3 pt_1(500-100, -50, 1);
+	// ivec3 pt_2(500+50, 100, 1);
+	// ivec3 pt_1(450, -100, 1);
+	// ivec3 pt_2(550, 50, 1);
+	// drawLine(pt_1, pt_2, CL_RED);
 }
 
 
 int Canvas::validation(int x, int y){
 	if (x >= surface.w || y >= surface.h || x < 0 || y < 0){
 		cout << "Point is out of bounce\n";
+		cout << x << " " << y << " " << endl;
 		return FAIL;
 	}
 	return SUCCESS;
@@ -49,6 +56,7 @@ uint32 Canvas::getPixel(int x, int y){
 void Canvas::drawLine(ivec3 pt_1, ivec3 pt_2, uint32 color){
 	// The Bresenham's line algorithm
 	// for every line direction
+
 	if (!cutLine(pt_1, pt_2))
 		return;
 	
@@ -57,7 +65,7 @@ void Canvas::drawLine(ivec3 pt_1, ivec3 pt_2, uint32 color){
 		return;
 	
 	ivec3 dir = pt_2 - pt_1;		// direction vector
-	imat3 mirror = MAT3_EYE;			// mirror matrix 
+	imat3 mirror = MAT3_EYE;		// mirror matrix 
 
 	if (dir.y < 0)
 		mirror = mirror * MAT3_mir_Ox;
@@ -229,19 +237,23 @@ int Canvas::cutLine(ivec3 &pt_1, ivec3 &pt_2){
 		ivec3(surface.w-1, surface.h-1, 1)
 	};
 	static ivec3 cross;
+	int cross_count = 0;
 
 	for (int i = 0; i < 4; i++){
 		if ((sect_1 | sect_2) & (1 << i)){
 			if (!crossPoint(pt_1, pt_2, corners[i], corners[(i+1)%4], cross))
 				continue;
 
+			cross_count++;
 			if (sect_1 & (1 << i))
 				pt_1 = cross;
 			else
 				pt_2 = cross;
-			cutLine(pt_1, pt_2);
-			break;
+			if (!cutLine(pt_1, pt_2))
+				return FAIL;		// theoretically will never happen
 		}
 	}
-	return SUCCESS;
+	if (!cross_count)
+		return FAIL;		// full invisible (different sectors)
+	return SUCCESS;			// part visible
 }

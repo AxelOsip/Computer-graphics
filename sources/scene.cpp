@@ -10,7 +10,7 @@ void Scene::update(){
 
 
 void Scene::control(int key){
-	cout << key << " ";
+	// keyboard event
 	if (key == SDL_SCANCODE_W)
 		camera.shift(0, 0, step);
 	else if (key == SDL_SCANCODE_S)
@@ -19,6 +19,16 @@ void Scene::control(int key){
 		camera.shift(-step, 0, 0);
 	else if (key == SDL_SCANCODE_D)
 		camera.shift(step, 0, 0);
+	if (key == SDL_SCANCODE_SPACE)
+		camera.shift(0, -step, 0);
+	else if (key == SDL_SCANCODE_C)
+		camera.shift(0, step, 0);
+}
+
+
+void Scene::control(int x, int y){
+	// mouse motion event
+	camera.rotate(x/1000.f*sensitivity, y/1000.f*sensitivity);
 }
 
 

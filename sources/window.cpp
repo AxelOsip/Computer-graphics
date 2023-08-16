@@ -45,16 +45,23 @@ void Window::close()
 }
 
 
-void Window::event(bool* quit){
+void Window::event(bool &quit){
 	SDL_Event event;
 	while (SDL_PollEvent(&event) != 0){
 		if (event.type == SDL_QUIT){
-			*quit = true;
+			quit = true;
 			return;
 		}
 		if (event.type == SDL_KEYDOWN){
 			int key = event.key.keysym.scancode;
 			scene.control(key);
+		}
+		if (event.type == SDL_MOUSEMOTION){
+			static int x=ptrSurface->w/2, y=ptrSurface->h/2, x_new, y_new;
+			SDL_GetMouseState(&x_new, &y_new);
+			scene.control(y_new-y, x_new-x);
+			x = x_new; y = y_new;
+			return;
 		}
 	}
 }
@@ -65,7 +72,7 @@ void Window::loop(){
 	while (!quit){	
 		uint32 start = SDL_GetTicks();
 
-		event(&quit);
+		event(quit);
 		SDL_RenderClear(ptrRenderer);
 
 		scene.update();			// 3D-dimension

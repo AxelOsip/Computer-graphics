@@ -19,5 +19,4 @@ void Camera::rotate(float angle_Ox, float angle_Oy){
 
 void Camera::shift(float dx, float dy, float dz){
 	position = position * MAT4_shift(dx,dy,dz);
-	cout << position.x << " ";
 }
