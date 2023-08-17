@@ -7,6 +7,7 @@ using namespace std;
 #include <glm/ext.hpp>
 using namespace glm;
 
+
 // Status
 #define SUCCESS 	1
 #define FAIL 		0

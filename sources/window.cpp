@@ -56,10 +56,13 @@ void Window::event(bool &quit){
 			int key = event.key.keysym.scancode;
 			scene.control(key);
 		}
+
 		if (event.type == SDL_MOUSEMOTION){
-			static int x=ptrSurface->w/2, y=ptrSurface->h/2, x_new, y_new;
+			static int x=250, y=250;
+			int x_new, y_new;
+
 			SDL_GetMouseState(&x_new, &y_new);
-			scene.control(y_new-y, x_new-x);
+			scene.control(y-y_new, x-x_new);
 			x = x_new; y = y_new;
 			return;
 		}

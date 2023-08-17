@@ -45,7 +45,7 @@ class Scene{
 	Canvas canvas;
 	Camera camera;
 
-	float step = 5;		// move step per frame
-	float sensitivity = 1;		// move step per frame
+	float step = 5;				// move step per frame
+	float sensitivity = 2;		// rotate step per frame
 
 };
