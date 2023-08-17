@@ -10,13 +10,24 @@ ivec3 Camera::projection(vec4 pt){
 }
 
 
-void Camera::rotate(float angle_Ox, float angle_Oy){
-	mat4 mat_rot = MAT4_rot_Ox(angle_Ox) * MAT4_rot_Oy(angle_Oy);
-	right = right * mat_rot;
-	up = up * mat_rot;
-	forward = forward * mat_rot;
+void Camera::rotate_hor(float angle){
+	// rotate arond global Oy
+	Quaternion q(vec4(0,1,0,0), angle);
+
+	right = (q * Quaternion(right) * ~q).getVector();
+	up = (q * Quaternion(up) * ~q).getVector();
+	forward = (q * Quaternion(forward) * ~q).getVector();
 }
 
+void Camera::rotate_vert(float angle){
+	// rotate arond local Ox
+	Quaternion q(right, angle);
+
+	up = (q * Quaternion(up) * ~q).getVector();
+	forward = (q * Quaternion(forward) * ~q).getVector();
+}
+
+
 void Camera::shift(float dx, float dy, float dz){
-	position = position * MAT4_shift(dx,dy,dz);
+	position = position + right*dx + up*dy + forward*dz;
 }

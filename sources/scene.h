@@ -46,6 +46,6 @@ class Scene{
 	Camera camera;
 
 	float step = 5;				// move step per frame
-	float sensitivity = 2;		// rotate step per frame
+	float sensitivity = 0.002;		// rotate step per frame
 
 };

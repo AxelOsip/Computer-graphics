@@ -28,7 +28,8 @@ void Scene::control(int key){
 
 void Scene::control(int x, int y){
 	// mouse motion event
-	camera.rotate(x/1000.f*sensitivity, y/1000.f*sensitivity);
+	camera.rotate_hor(x*sensitivity);
+	camera.rotate_vert(y*sensitivity);
 }
 
 

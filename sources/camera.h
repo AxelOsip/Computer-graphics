@@ -11,6 +11,7 @@ using namespace glm;
 #include "tools.h"
 #include "smartArray.h"
 #include "canvas.h"
+#include "quaternion.h"
 
 
 class Camera{
@@ -20,8 +21,9 @@ class Camera{
 	~Camera(){};
 
 	ivec3 projection(vec4 pt);						// project point to camera surface
-	void rotate(float angle_Ox, float angle_Oy);	// rotate camera (angle in radians)
-	void shift(float dx, float dy, float dz);				// shift camera
+	void rotate_hor(float angle);					// rotate arond global Oy
+	void rotate_vert(float angle);					// rotate arond local Ox
+	void shift(float dx, float dy, float dz);		// shift camera
 	
 	private:
 

@@ -62,7 +62,7 @@ void Window::event(bool &quit){
 			int x_new, y_new;
 
 			SDL_GetMouseState(&x_new, &y_new);
-			scene.control(y-y_new, x-x_new);
+			scene.control(x-x_new, y-y_new);
 			x = x_new; y = y_new;
 			return;
 		}
