@@ -1,5 +1,6 @@
 #include "window.h"
 
+
 int Window::init(){
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -27,6 +28,7 @@ int Window::init(){
 
 	canvas.setSurface(*ptrSurface);
 	scene.setCanvas(canvas);
+	scene.setCenter(resolution/2);
 
 	return SUCCESS;
 };
@@ -58,7 +60,7 @@ void Window::event(bool &quit){
 		}
 
 		if (event.type == SDL_MOUSEMOTION){
-			static int x=250, y=250;
+			static int x=resolution.x/2, y=resolution.y/2;
 			int x_new, y_new;
 
 			SDL_GetMouseState(&x_new, &y_new);

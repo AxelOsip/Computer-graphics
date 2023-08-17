@@ -34,14 +34,14 @@ class Window{
 	SDL_Surface *ptrSurface = NULL;
 
 	const int FPS = 60;													// Window FPS setting
-	const char* header = "Attention! High-risk zone. Do not enter!.";   // Window header
-	const vec2 resolution{500,500};                                     // Window resolution; vec2(width, height)
+	const char* header = "Attention! High-risk zone. Do not enter!.";	// Window header
+	const ivec2 resolution{500,500};									// Window resolution; vec2(width, height)
 	Canvas canvas;														// Canvas for drawing on (2D)
 	Scene scene;														// Scene for for placement objects (3D)
 
 	int init();															// Window initialization
 	void close();														// Window closing
-	void event(bool&);                          						// keyboard and mouse event processor                       
+	void event(bool&);													// keyboard and mouse event processor                       
 
 	public:
 

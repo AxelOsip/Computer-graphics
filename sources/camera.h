@@ -20,6 +20,10 @@ class Camera{
 	Camera(){};
 	~Camera(){};
 
+	void setCenter(ivec2 center){
+		this->center = center;
+	}
+
 	ivec3 projection(vec4 pt);						// project point to camera surface
 	void rotate_hor(float angle);					// rotate arond global Oy
 	void rotate_vert(float angle);					// rotate arond local Ox
@@ -28,10 +32,12 @@ class Camera{
 	private:
 
 	vec4 position{0,0,0,1};
-
+	ivec2 center;						// image centering
 	// projection surface local direction
-	vec4 right = RIGHT;			// local x
-	vec4 up = UP;				// local y
-	vec4 forward = FORWARD;		// local z
+	vec4 right = RIGHT;					// local Ox
+	vec4 up = UP;						// local Oy
+	vec4 forward = FORWARD;				// local Oz
+
+	vec4 focus = vec4(0,0,-250,1);					// focus point for perspective projection
 
 };

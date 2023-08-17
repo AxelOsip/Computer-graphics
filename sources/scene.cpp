@@ -6,6 +6,10 @@ void Scene::update(){
 
 	drawObj(cube);
 
+	// vec_debug(camera.up);
+	// vec_debug(camera.forward);
+	// cout << endl;
+
 }
 
 
@@ -20,9 +24,9 @@ void Scene::control(int key){
 	else if (key == SDL_SCANCODE_D)
 		camera.shift(step, 0, 0);
 	if (key == SDL_SCANCODE_SPACE)
-		camera.shift(0, -step, 0);
-	else if (key == SDL_SCANCODE_C)
 		camera.shift(0, step, 0);
+	else if (key == SDL_SCANCODE_C)
+		camera.shift(0, -step, 0);
 }
 
 

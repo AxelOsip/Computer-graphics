@@ -20,7 +20,7 @@ class Scene{
 	public:
 
 	Scene(){
-		cube.setMatrix(100, 250,250,250);
+		cube.setMatrix(100, 0,0,500);
 		// camera.rotate(0.3, 0.2);
 		// cube.scale(1.5);
 		// cube.shift(150,0,0);
@@ -28,6 +28,9 @@ class Scene{
 	~Scene(){}
 	void setCanvas(Canvas &canvas){
 		this->canvas = canvas;
+	}
+	void setCenter(ivec2 center){
+		camera.setCenter(center);
 	}
 
 	void update();
@@ -43,7 +46,7 @@ class Scene{
 	Object cube{"objects/cube.obj"};
 
 	Canvas canvas;
-	Camera camera;
+	Camera camera{};
 
 	float step = 5;				// move step per frame
 	float sensitivity = 0.002;		// rotate step per frame
