@@ -32,6 +32,9 @@ class Scene{
 	void setCenter(ivec2 center){
 		camera.setCenter(center);
 	}
+	void setResolution(ivec2 resolution){
+		camera.setResolution(resolution);
+	}
 
 	void update();
 	void control(int key);

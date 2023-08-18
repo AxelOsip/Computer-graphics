@@ -14,8 +14,8 @@ void Canvas::update(){
 
 int Canvas::validation(int x, int y){
 	if (x >= surface.w || y >= surface.h || x < 0 || y < 0){
-		cout << "Point is out of bounce\n";
-		cout << x << " " << y << " " << endl;
+		// cout << "Point is out of bounce\n";
+		// cout << x << " " << y << " " << endl;
 		return FAIL;
 	}
 	return SUCCESS;
@@ -113,7 +113,8 @@ void Canvas::drawCircle(ivec3 center, int radius, uint32 color){
 			if (j & 4)
 				cord_mir = cord_mir * MAT3_mir_xy;					// mirroring xy
 			cord_mir = cord_mir * MAT3_shift(center.x, center.y);	// transport center back
-			setPixel(cord_mir, color);
+			if (validation(cord_mir.x, cord_mir.y))
+				setPixel(cord_mir, color);
 		}
 	}
 }
@@ -171,7 +172,10 @@ int Canvas::crossPoint(Array<ivec3> &line_0, Array<ivec3> &line_1, ivec3 &cross)
 }
 
 int Canvas::crossPoint(ivec3 pt_1, ivec3 pt_2, ivec3 pt_3, ivec3 pt_4, ivec3 &cross){
-	// 	Kramer's method for thee following equalities:
+	// 	Kramer's method for the following equalities:
+	//
+	//	line 1: p_cross = p1 + (p2-p1)*t
+	//	line 2: p_cross = p3 + (p4-p3)*k
 	//
 	//	x_cross = x1 + (x2-x1)*t = x3 + (x4-x3)*k
 	//	y_cross = y1 + (y2-y1)*t = y3 + (y4-y3)*k
@@ -203,7 +207,7 @@ int Canvas::crossPoint(ivec3 pt_1, ivec3 pt_2, ivec3 pt_3, ivec3 pt_4, ivec3 &cr
 }
 
 
-int Canvas::getSect(ivec3 pt){
+int8 Canvas::getSect(ivec3 pt){
 	// bits: 0 - left, 1 - down, 2 - right, 3 - up
 	int sect = 0;	 
 	if (pt.x < 0)
@@ -221,8 +225,8 @@ int Canvas::cutLine(ivec3 &pt_1, ivec3 &pt_2){
 	// Cohen–Sutherland algorithm
 	
 	// sectors
-	int sect_1 = getSect(pt_1);
-	int sect_2 = getSect(pt_2);
+	int8 sect_1 = getSect(pt_1);
+	int8 sect_2 = getSect(pt_2);
 
 	if (!sect_1 && !sect_2)		// full visible
 		return SUCCESS;
@@ -240,19 +244,17 @@ int Canvas::cutLine(ivec3 &pt_1, ivec3 &pt_2){
 	int cross_count = 0;
 
 	for (int i = 0; i < 4; i++){
-		if ((sect_1 | sect_2) & (1 << i)){
-			if (!crossPoint(pt_1, pt_2, corners[i], corners[(i+1)%4], cross))
-				continue;
-
-			cross_count++;
-			if (sect_1 & (1 << i))
-				pt_1 = cross;
-			else
-				pt_2 = cross;
-			if (!cutLine(pt_1, pt_2))
-				return FAIL;		// theoretically will never happen
-		}
+		if (!((sect_1 | sect_2) & (1 << i)))
+			continue;
+		if (!crossPoint(pt_1, pt_2, corners[i], corners[(i+1)%4], cross))
+			continue;
+		cross_count++;
+		if (sect_1 & (1 << i))
+			pt_1 = cross;
+		else
+			pt_2 = cross;
 	}
+
 	if (!cross_count)
 		return FAIL;		// full invisible (different sectors)
 	return SUCCESS;			// part visible

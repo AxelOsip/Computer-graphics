@@ -11,8 +11,91 @@ ivec3 Camera::projection(vec4 pt){
 	float y_new = v_new.y * ratio;
 
 	ivec3 proj(x_new+center.x, y_new+center.y, 1);
-	// ivec3 proj(v_new[0], v_new[1], 1);			// orthogonal projection to local Oxy surface
+	// ivec3 proj(v_new[0]+center.x, v_new[1]+center.y, 1);			// orthogonal projection to local Oxy surface
 	return proj;
+}
+
+
+int8 Camera::getSect(vec4 pt){
+	// bits: 0 - left, 1 - down, 2 - right, 3 - up, 4 - back
+
+	vec4 scale = VEC4_scale(250);
+	vec4 corners[4] = {		// canvas corners with camera position and orientation
+		position - right*scale - up*scale,
+		position - right*scale + up*scale,
+		position + right*scale + up*scale,
+		position + right*scale - up*scale
+	};
+
+	int8 sect = 0;
+
+	// checking truncated piramide sides
+	for (int i = 0; i < 4; i++){
+		if (pointRelateSurf(corners[i], corners[(i+1)%4], position + focus, pt) > -100)
+			sect += 1 << i;
+	}
+	// checking truncated piramide up
+	if(pointRelateSurf(corners[0], corners[1], corners[2], pt) > -100)
+		sect += 1 << 4;
+
+	return sect;
+}
+
+int Camera::cutLine(vec4 &pt_1, vec4 &pt_2){
+	
+	int8 sect_1 = getSect(pt_1);
+	int8 sect_2 = getSect(pt_2);
+	
+	if (!sect_1 && !sect_2)		// full visible
+		return SUCCESS;
+	
+	if (sect_1 & sect_2)		// full invisible
+		return FAIL;
+	
+	vec4 scale = VEC4_scale(250);
+	vec4 corners[4] = {			// canvas corners with camera position and orientation
+		position - right*scale - up*scale,
+		position - right*scale + up*scale,
+		position + right*scale + up*scale,
+		position + right*scale - up*scale
+	};
+
+	static vec4 cross;
+	int cross_count = 0;
+
+	// cutting by truncated piramide sides
+	for (int i = 0; i < 4; i++){
+		if (!(sect_1 | sect_2) & (1 << i))
+			continue;
+		if (!lineCrossSurf(pt_1, pt_2, corners[i], corners[(i+1)%4], position + focus, cross))
+			continue;
+
+		cross_count++;
+		if (sect_1 & (1 << i))
+			pt_1 = cross;
+		else
+			pt_2 = cross;
+	}
+
+	// cutting by truncated piramide up
+	int status = SUCCESS;
+	if (!(sect_1 | sect_2) & (1 << 4))
+		status = FAIL;
+	if (!lineCrossSurf(pt_1, pt_2, corners[0], corners[1], corners[2], cross))
+		status = FAIL;
+
+	if (status){
+		cross_count++;
+		if (sect_1 & (1 << 4))
+			pt_1 = cross;
+		else
+			pt_2 = cross;
+	}
+
+	if (!cross_count){
+		return FAIL;		// full invisible (different sectors)
+	}
+	return SUCCESS;			// part visible
 }
 
 

@@ -29,6 +29,7 @@ int Window::init(){
 	canvas.setSurface(*ptrSurface);
 	scene.setCanvas(canvas);
 	scene.setCenter(resolution/2);
+	scene.setResolution(resolution);
 
 	return SUCCESS;
 };

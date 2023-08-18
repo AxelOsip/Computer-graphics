@@ -23,16 +23,24 @@ class Camera{
 	void setCenter(ivec2 center){
 		this->center = center;
 	}
+	void setResolution(ivec2 resolution){
+		this->resolution = resolution;
+	}
 
 	ivec3 projection(vec4 pt);						// project point to camera surface
+	int8 getSect(vec4 pt);							// getting sector for Cohen algorithm for 3d truncated piramide
+	int cutLine(vec4 &pt_1, vec4 &pt_2);	// cut line along truncated cone (pyramid) view
+
 	void rotate_hor(float angle);					// rotate arond global Oy
 	void rotate_vert(float angle);					// rotate arond local Ox
 	void shift(float dx, float dy, float dz);		// shift camera
 	
 	private:
 
+	ivec2 center;									// image centering
+	ivec2 resolution;								// canvas resolution (not a window)
+
 	vec4 position{0,0,0,1};
-	ivec2 center;						// image centering
 	// projection surface local direction
 	vec4 right = RIGHT;					// local Ox
 	vec4 up = UP;						// local Oy

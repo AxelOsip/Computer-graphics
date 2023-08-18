@@ -22,7 +22,7 @@ using namespace glm;
 #define CL_WHITE 	0xffffff
 #define CL_BLACK 	0x000000
 
-// Affine matrix
+// Affine matrix and vectors
 #define MAT3_EYE				imat3(1,0,0, 0,1,0, 0,0,1)						// eye matrix
 #define MAT3_mir_Ox 			imat3(1,0,0, 0,-1,0, 0,0,1)						// mirroring mftrix on the Ox axis (-)
 #define MAT3_mir_Oy 			imat3(-1,0,0, 0,1,0, 0,0,1)						// mirroring mftrix on the Oy axis (|)
@@ -39,6 +39,9 @@ using namespace glm;
 #define MAT4_rot_Oy(a)				mat4(cos(a),0,sin(a),0, 0,1,0,0, -sin(a),0,cos(a),0, 0,0,0,1)	// rotating matrix around Ox axis
 #define MAT4_rot_Oz(a)				mat4(cos(a),sin(a),0,0, -sin(a),cos(a),0,0, 0,0,1,0, 0,0,0,1)	// rotating matrix around Ox axis
 
+#define VEC3_scale(a)			vec3(a,a,0);
+#define VEC4_scale(a)			vec4(a,a,a,0);
+
 
 // Directions
 #define RIGHT					vec4(1,0,0,0)
@@ -48,7 +51,7 @@ using namespace glm;
 
 // Functions
 template<length_t N>
-void mat_debug(mat<N, N, f32, defaultp> m){
+void mat_debug(mat<N, N, f32, defaultp> m){		// print matrix members into console
 	for (int i = 0; i < N; i++){
 		for (int j = 0; j < N; j++)
 			cout << m[i][j] << " ";
@@ -58,8 +61,25 @@ void mat_debug(mat<N, N, f32, defaultp> m){
 }
 
 template<length_t N>
-void vec_debug(vec<N, float, defaultp> v){
+void vec_debug(vec<N, float, defaultp> v){		// print vector members into console
 	for (int i = 0; i < N; i++)
 		cout << v[i] << " ";
 	cout << endl;
 }
+
+template<typename T>
+void bits_debug(T num){
+	int N = sizeof(T)*8;
+	cout << N << endl;
+	for (int i = N-1; i >= 0; i--){
+		cout << (bool(num & 1 << i));
+	}
+	cout << endl;
+}
+
+
+int lineCrossSurf(vec4 pt_l1, vec4 pt_l2, vec4 pt_s1, vec4 pt_s2, vec4 pt_s3, vec4 &cross);
+
+
+float pointRelateSurf(vec4 pt_1s, vec4 pt_2s, vec4 pt_3s, vec4 pt);		// find point position around a surface (three vec4)
+

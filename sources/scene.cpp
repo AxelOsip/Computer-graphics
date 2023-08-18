@@ -6,10 +6,17 @@ void Scene::update(){
 
 	drawObj(cube);
 
-	// vec_debug(camera.up);
-	// vec_debug(camera.forward);
-	// cout << endl;
+	vec4 pt_1(0,0, 500, 1);
+	vec4 pt_2(250,250, 250, 1);	
 
+	if (camera.cutLine(pt_1, pt_2)){
+		ivec3 proj_1 = camera.projection(pt_1);
+		ivec3 proj_2 = camera.projection(pt_2);
+
+		canvas.drawLine(proj_1, proj_2, CL_YELLOW);
+		canvas.drawCircle(proj_1, 10, CL_GREEN);
+		canvas.drawCircle(proj_2, 10, CL_GREEN);
+	}
 }
 
 
@@ -48,6 +55,8 @@ void Scene::drawObj(Object &obj){
 		for (int j = 0; j < 3; j++){
 			vec4 pt_1 = obj.points[obj.connections[i][j]] * obj.matrix;
 			vec4 pt_2 = obj.points[obj.connections[i][(j+1)%3]] * obj.matrix;
+			if (!camera.cutLine(pt_1, pt_2))
+				continue;
 			canvas.drawLine(projection(pt_1), projection(pt_2), CL_RED);
 		}
 	}

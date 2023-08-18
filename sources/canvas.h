@@ -47,7 +47,7 @@ class Canvas{
 	int crossPoint(Array<ivec3> &line_0, Array<ivec3> &line_1, ivec3 &cross);		// finding point of crossing of two lines (Array, size=2)
 	int crossPoint(ivec3 pt_1, ivec3 pt_2, ivec3 pt_3, ivec3 pt_4, ivec3 &cross);	// finding point of crossing of two lines (pt_1-pt_2, pt_3-pt_4)
 	
-	int getSect(ivec3 pt);									// getting sector for Cohen algorithm  
+	int8 getSect(ivec3 pt);									// getting sector for Cohen algorithm  
 	int cutLine(ivec3 &pt_1, ivec3 &pt_2);					// cutting line to fit the window
 
 };
