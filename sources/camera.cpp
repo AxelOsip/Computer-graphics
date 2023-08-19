@@ -123,6 +123,6 @@ void Camera::rotate_vert(float angle){
 void Camera::shift(float dx, float dy, float dz){
 	vec4 move_right(right.x, 0, right.z, 0);
 	vec4 move_up(0, 1, 0, 0);
-	vec4 move_forward(forward.x, 0, forward.z, 0);
+	vec4 move_forward = normalize(vec4(forward.x, 0, forward.z, 0));
 	position = position + move_right*dx + move_up*dy + move_forward*dz;
 }

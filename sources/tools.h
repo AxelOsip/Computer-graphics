@@ -50,6 +50,19 @@ using namespace glm;
 #define W_DIR					vec4(0,0,0,1)
 
 // Functions
+
+template<length_t N>
+vec<N, float, defaultp> normalize(vec<N, float, defaultp> v){
+	float sum = 0;
+	for (int i = 0; i < N; i++)
+		sum += abs(v[i]);
+	vec<N, float, defaultp> v_new;
+	for (int i = 0; i < N; i++)
+		v_new[i] = v[i]/sum;
+	return v_new;
+}
+
+
 template<length_t N>
 void mat_debug(mat<N, N, f32, defaultp> m){		// print matrix members into console
 	for (int i = 0; i < N; i++){
