@@ -31,6 +31,8 @@ int Window::init(){
 	scene.setCenter(resolution/2);
 	scene.setResolution(resolution);
 
+	SDL_SetRelativeMouseMode(SDL_TRUE);
+
 	return SUCCESS;
 };
 
@@ -50,7 +52,8 @@ void Window::close()
 
 void Window::event(bool &quit){
 	SDL_Event event;
-	while (SDL_PollEvent(&event) != 0){
+
+	while (SDL_PollEvent(&event)){
 		if (event.type == SDL_QUIT){
 			quit = true;
 			return;
@@ -61,12 +64,9 @@ void Window::event(bool &quit){
 		}
 
 		if (event.type == SDL_MOUSEMOTION){
-			static int x=resolution.x/2, y=resolution.y/2;
-			int x_new, y_new;
-
-			SDL_GetMouseState(&x_new, &y_new);
-			scene.control(x-x_new, y-y_new);
-			x = x_new; y = y_new;
+			int dx = event.motion.xrel;
+			int dy = event.motion.yrel;
+			scene.control(dx, dy);
 			return;
 		}
 	}
@@ -88,7 +88,7 @@ void Window::loop(){
 		SDL_RenderCopy(ptrRenderer, ptrTexture, NULL, NULL);
 		SDL_RenderPresent(ptrRenderer);
 
-		if (1000.f/FPS > SDL_GetTicks() - start)
-			SDL_Delay(1000.f/FPS - SDL_GetTicks() + start);
+		// if (1000.f/FPS > SDL_GetTicks() - start)			// FPS delay does't work with "event.motion.xrel"
+		// 	SDL_Delay(1000.f/FPS - SDL_GetTicks() + start);
 	}
 }
