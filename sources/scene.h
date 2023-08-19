@@ -20,7 +20,7 @@ class Scene{
 	public:
 
 	Scene(){
-		cube.setMatrix(100, 0,0,500);
+		cube.setMatrix(1, 0,0,5);
 		// camera.rotate(0.3, 0.2);
 		// cube.scale(1.5);
 		// cube.shift(150,0,0);
@@ -51,7 +51,7 @@ class Scene{
 	Canvas canvas;
 	Camera camera{};
 
-	float step = 5;				// move step per frame
+	float step = 0.05;				// move step per frame
 	float sensitivity = 0.002;		// rotate step per frame
 
 };

@@ -6,8 +6,8 @@ void Scene::update(){
 
 	drawObj(cube);
 
-	vec4 pt_1(0,0, 500, 1);
-	vec4 pt_2(250,250, 250, 1);	
+	vec4 pt_1(0,0, 1, 2);
+	vec4 pt_2(0.5,0.5, 3, 1);	
 
 	if (camera.cutLine(pt_1, pt_2)){
 		ivec3 proj_1 = camera.projection(pt_1);
@@ -57,6 +57,8 @@ void Scene::drawObj(Object &obj){
 			vec4 pt_2 = obj.points[obj.connections[i][(j+1)%3]] * obj.matrix;
 			if (!camera.cutLine(pt_1, pt_2))
 				continue;
+			canvas.drawCircle(projection(pt_1), 5, CL_GREEN);
+			canvas.drawCircle(projection(pt_2), 5, CL_GREEN);
 			canvas.drawLine(projection(pt_1), projection(pt_2), CL_RED);
 		}
 	}

@@ -46,6 +46,6 @@ class Camera{
 	vec4 up = UP;						// local Oy
 	vec4 forward = FORWARD;				// local Oz
 
-	vec4 focus = vec4(0,0,-250,1);					// focus point for perspective projection
+	vec4 focus = vec4(0,0,-1,1);					// focus point for perspective projection
 
 };

@@ -5,10 +5,11 @@ ivec3 Camera::projection(vec4 pt){
 	mat4 T = mat4{right, -up, forward, W_DIR};		// transition matrix to new basis
 	vec4 v = pt - position;	// vector in old basis
 	vec4 v_new = v * T;								// vector in new basis
+	vec4 focus = this->focus * T;
 
 	float ratio = -focus.z / (-focus.z + v_new.z);	// perspective projection ratio
-	float x_new = v_new.x * ratio;
-	float y_new = v_new.y * ratio;
+	float x_new = v_new.x * ratio * resolution.x;
+	float y_new = v_new.y * ratio * resolution.y;
 
 	ivec3 proj(x_new+center.x, y_new+center.y, 1);
 	// ivec3 proj(v_new[0]+center.x, v_new[1]+center.y, 1);			// orthogonal projection to local Oxy surface
@@ -19,7 +20,7 @@ ivec3 Camera::projection(vec4 pt){
 int8 Camera::getSect(vec4 pt){
 	// bits: 0 - left, 1 - down, 2 - right, 3 - up, 4 - back
 
-	vec4 scale = VEC4_scale(250);
+	vec4 scale = VEC4_scale(0.5);
 	vec4 corners[4] = {		// canvas corners with camera position and orientation
 		position - right*scale - up*scale,
 		position - right*scale + up*scale,
@@ -31,11 +32,11 @@ int8 Camera::getSect(vec4 pt){
 
 	// checking truncated piramide sides
 	for (int i = 0; i < 4; i++){
-		if (pointRelateSurf(corners[i], corners[(i+1)%4], position + focus, pt) > -100)
+		if (pointRelateSurf(corners[i], corners[(i+1)%4], position + focus, pt) > 0)
 			sect += 1 << i;
 	}
 	// checking truncated piramide up
-	if(pointRelateSurf(corners[0], corners[1], corners[2], pt) > -100)
+	if(pointRelateSurf(corners[0], corners[1], corners[2], pt) > 0)
 		sect += 1 << 4;
 
 	return sect;
@@ -52,7 +53,7 @@ int Camera::cutLine(vec4 &pt_1, vec4 &pt_2){
 	if (sect_1 & sect_2)		// full invisible
 		return FAIL;
 	
-	vec4 scale = VEC4_scale(250);
+	vec4 scale = VEC4_scale(0.5);
 	vec4 corners[4] = {			// canvas corners with camera position and orientation
 		position - right*scale - up*scale,
 		position - right*scale + up*scale,
@@ -101,7 +102,7 @@ int Camera::cutLine(vec4 &pt_1, vec4 &pt_2){
 
 void Camera::rotate_hor(float angle){
 	// rotate arond global Oy
-	Quaternion q(vec4(0,1,0,0), -angle);
+	Quaternion q(vec4(0,1,0,0), angle);
 
 	right = (q * Quaternion(right) * ~q).getVector();
 	up = (q * Quaternion(up) * ~q).getVector();
@@ -111,7 +112,7 @@ void Camera::rotate_hor(float angle){
 
 void Camera::rotate_vert(float angle){
 	// rotate arond local Ox
-	Quaternion q(right, -angle);
+	Quaternion q(right, angle);
 
 	up = (q * Quaternion(up) * ~q).getVector();
 	forward = (q * Quaternion(forward) * ~q).getVector();
