@@ -20,19 +20,19 @@ void Scene::update(){
 }
 
 
-void Scene::control(int key){
+void Scene::control(const uint8 *keys){
 	// keyboard event
-	if (key == SDL_SCANCODE_W)
+	if (keys[SDL_SCANCODE_W])
 		camera.shift(0, 0, step);
-	else if (key == SDL_SCANCODE_S)
+	if (keys[SDL_SCANCODE_S])
 		camera.shift(0, 0, -step);
-	if (key == SDL_SCANCODE_A)
+	if (keys[SDL_SCANCODE_A])
 		camera.shift(-step, 0, 0);
-	else if (key == SDL_SCANCODE_D)
+	if (keys[SDL_SCANCODE_D])
 		camera.shift(step, 0, 0);
-	if (key == SDL_SCANCODE_SPACE)
+	if (keys[SDL_SCANCODE_SPACE])
 		camera.shift(0, step, 0);
-	else if (key == SDL_SCANCODE_C)
+	if (keys[SDL_SCANCODE_C])
 		camera.shift(0, -step, 0);
 }
 

@@ -37,7 +37,7 @@ class Scene{
 	}
 
 	void update();
-	void control(int key);
+	void control(const uint8 *keys);
 	void control(int x, int y);
 
 

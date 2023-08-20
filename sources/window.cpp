@@ -53,21 +53,21 @@ void Window::close()
 void Window::event(bool &quit){
 	SDL_Event event;
 
+	static const uint8 *keys = SDL_GetKeyboardState(NULL);
+
 	while (SDL_PollEvent(&event)){
 		if (event.type == SDL_QUIT){
 			quit = true;
 			return;
 		}
 		if (event.type == SDL_KEYDOWN){
-			int key = event.key.keysym.scancode;
-			scene.control(key);
+			scene.control(keys);
 		}
 
 		if (event.type == SDL_MOUSEMOTION){
 			int dx = event.motion.xrel;
 			int dy = event.motion.yrel;
 			scene.control(dx, dy);
-			return;
 		}
 	}
 }
@@ -75,10 +75,16 @@ void Window::event(bool &quit){
 
 void Window::loop(){
 	bool quit = false;
+	uint32 start = SDL_GetTicks();
+	
 	while (!quit){	
-		uint32 start = SDL_GetTicks();
+		
+		event(quit);									// control events are independ of FPS
+		if (1000.f/FPS > SDL_GetTicks() - start)		// FPS limit
+			continue;
 
-		event(quit);
+		start = SDL_GetTicks();
+
 		SDL_RenderClear(ptrRenderer);
 
 		scene.update();			// 3D-dimension
@@ -87,8 +93,5 @@ void Window::loop(){
 		SDL_UpdateTexture(ptrTexture, NULL, ptrSurface->pixels, ptrSurface->pitch);
 		SDL_RenderCopy(ptrRenderer, ptrTexture, NULL, NULL);
 		SDL_RenderPresent(ptrRenderer);
-
-		// if (1000.f/FPS > SDL_GetTicks() - start)			// FPS delay does't work with "event.motion.xrel"
-		// 	SDL_Delay(1000.f/FPS - SDL_GetTicks() + start);
 	}
 }
