@@ -5,6 +5,7 @@ void Scene::update(){
 	canvas.update();
 
 	drawObj(cube);
+	drawObj(tetra);
 
 	vec4 pt_1(0,0, 1, 2);
 	vec4 pt_2(0.5,0.5, 3, 1);	

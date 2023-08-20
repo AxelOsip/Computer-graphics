@@ -20,10 +20,8 @@ class Scene{
 	public:
 
 	Scene(){
-		cube.setMatrix(1, 0,0,5);
-		// camera.rotate(0.3, 0.2);
-		// cube.scale(1.5);
-		// cube.shift(150,0,0);
+		cube.setMatrix(2, 0,0,5);
+		tetra.setMatrix(2, 2,1,2);
 	}
 	~Scene(){}
 	void setCanvas(Canvas &canvas){
@@ -47,6 +45,7 @@ class Scene{
 	ivec3 projection(vec4 pt);
 
 	Object cube{"objects/cube.obj"};
+	Object tetra{"objects/tetrahedra.obj"};
 
 	Canvas canvas;
 	Camera camera{};
