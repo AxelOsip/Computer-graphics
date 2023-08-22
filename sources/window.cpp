@@ -77,13 +77,14 @@ void Window::loop(){
 	bool quit = false;
 	uint32 start = SDL_GetTicks();
 	
+	float fps = 0;
+	char title[100];
+
 	while (!quit){	
 		
 		event(quit);									// control events are independ of FPS
 		if (1000.f/FPS > SDL_GetTicks() - start)		// FPS limit
 			continue;
-
-		start = SDL_GetTicks();
 
 		SDL_RenderClear(ptrRenderer);
 
@@ -93,5 +94,11 @@ void Window::loop(){
 		SDL_UpdateTexture(ptrTexture, NULL, ptrSurface->pixels, ptrSurface->pitch);
 		SDL_RenderCopy(ptrRenderer, ptrTexture, NULL, NULL);
 		SDL_RenderPresent(ptrRenderer);
+
+		// fps counter
+		fps = 1000.f / (SDL_GetTicks() - start);
+		start = SDL_GetTicks();
+		sprintf(title, "%s %f", header, fps);
+		SDL_SetWindowTitle(ptrWindow, title);
 	}
 }
