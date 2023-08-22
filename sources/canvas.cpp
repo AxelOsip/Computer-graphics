@@ -3,12 +3,6 @@
 
 void Canvas::update(){
 	clear();
-
-	// ivec3 pt_1(500-100, -50, 1);
-	// ivec3 pt_2(500+50, 100, 1);
-	// ivec3 pt_1(450, -100, 1);
-	// ivec3 pt_2(550, 50, 1);
-	// drawLine(pt_1, pt_2, CL_RED);
 }
 
 
@@ -157,11 +151,27 @@ void Canvas::fillPoly(Array<ivec3> &poly, uint32 color){
 			}
 		}
 		
-		// drawing horizontal line
+		// drawing horizontal lines
+		ivec3 pt_1, pt_2;
 		for (int i = 0; i < cross_count/2*2-1; i+=2){
-			if (cross_count%2 == 1 && crosses[i].x == crosses[i+1].x)
+			
+			if (crosses[i].x < crosses[i+1].x){		// finding left point
+				pt_1 = crosses[i];
+				pt_2 = crosses[i+1];
+			}
+			else {
+				pt_1 = crosses[i+1];
+				pt_2 = crosses[i];
+			}
+
+			if (cross_count%2 == 1 && pt_1.x == pt_2.x)		
 				i++;
-			drawLine(crosses[i], crosses[i+1], color);
+			if (cutLine(pt_1, pt_2))		// full invisible
+				continue;
+
+			for (int x = pt_1.x; x < pt_2.x; x++){
+				setPixel(x, y, color);
+			}
 		}
 	}
 }
