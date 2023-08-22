@@ -8,6 +8,8 @@ void Object::readFile(ifstream &file){
 							//				1 - points, 
 							//				2 - normals,
 							//				3 - connections
+							//				4 - normal id
+	int id = 0;
 
 	while(file.get(ch)){
 		if (ch == '#'){		// skip comments
@@ -27,6 +29,8 @@ void Object::readFile(ifstream &file){
 			status++;
 		if (ch == 'f')		// "f 0 0 0"
 			status = 3;
+		if (ch == 's')		// "g 0"
+			status = 4;
 		if (ch == '\n')
 			status = 0;
 		
@@ -54,6 +58,12 @@ void Object::readFile(ifstream &file){
 				file >> num;
 				connections[i][j] = num-1;
 			}
+			normal_id[i] = id-1;
+		}
+
+		if (status == 4){
+			file >> num;
+			id = num;
 		}
 	}
 }

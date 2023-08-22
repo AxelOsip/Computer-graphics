@@ -42,6 +42,7 @@ class Scene{
 	private:
 
 	void drawObj(Object &obj);
+	void fillObj(Object &obj);
 	ivec3 projection(vec4 pt);
 
 	Object cube{"objects/cube.obj"};

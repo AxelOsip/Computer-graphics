@@ -35,6 +35,7 @@ class Object{
 	Array<vec4> points{0};
 	Array<vec3> connections{0};
 	Array<vec4> normals{0};
+	Array<int> normal_id{0};
 
 	vec4 center{0,0,0,0};		// center point
 	mat4 matrix = MAT4_EYE;		// transform matrix

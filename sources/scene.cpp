@@ -4,6 +4,7 @@
 void Scene::update(){
 	canvas.update();
 
+	fillObj(cube);
 	drawObj(cube);
 	drawObj(tetra);
 
@@ -63,4 +64,11 @@ void Scene::drawObj(Object &obj){
 			canvas.drawLine(projection(pt_1), projection(pt_2), CL_RED);
 		}
 	}
+}
+
+
+void Scene::fillObj(Object &obj){
+	for (int i = 0; i < obj.normal_id.size; i++)
+		cout << obj.normal_id[i] << endl;
+	cout << endl;
 }
