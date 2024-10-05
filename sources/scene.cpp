@@ -4,12 +4,12 @@
 void Scene::update(){
 	canvas.update();
 
-	fillObj(cube);
+	// fillObj(cube);	// broken
 	drawObj(cube);
 	drawObj(tetra);
 
 	vec4 pt_1(0,0, 1, 2);
-	vec4 pt_2(0.5,0.5, 3, 1);	
+	vec4 pt_2(0.5,0.5, 3, 1);
 
 	if (camera.cutLine(pt_1, pt_2)){
 		ivec3 proj_1 = camera.projection(pt_1);
@@ -68,7 +68,25 @@ void Scene::drawObj(Object &obj){
 
 
 void Scene::fillObj(Object &obj){
-	for (int i = 0; i < obj.normal_id.size; i++)
-		cout << obj.normal_id[i] << endl;
-	cout << endl;
+	
+	static Array<vec4> surface{0};
+	static Array<ivec3> surface_proj{0};
+
+
+	for (int i = 0; i < 1; i++){			// i < obj.connections.size
+		surface.resize(0);
+		for (int j = 0; j < 3; j++)
+			surface[j] = obj.points[obj.connections[i][j]] * obj.matrix;
+		if (!camera.cutSurface(surface))
+			continue;
+		
+
+
+		for (int j = 0; j < 3; j++)
+			surface_proj[j] = camera.projection(surface[j]);
+
+		canvas.fillPoly(surface_proj, CL_BLUE);
+			
+	}
+
 }

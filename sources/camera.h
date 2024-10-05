@@ -28,8 +28,9 @@ class Camera{
 	}
 
 	ivec3 projection(vec4 pt);						// project point to camera surface
-	int8 getSect(vec4 pt);							// getting sector for Cohen algorithm for 3d truncated piramide
-	int cutLine(vec4 &pt_1, vec4 &pt_2);	// cut line along truncated cone (pyramid) view
+	uint8 getSect(vec4 pt);							// getting sector for Cohen algorithm for 3d truncated piramide
+	int cutLine(vec4 &pt_1, vec4 &pt_2);			// cut line along truncated cone (pyramid) view
+	int cutSurface(Array<vec4> &surface);			// cut surface along truncated cone (pyramid) view
 
 	void rotate_hor(float angle);					// rotate arond global Oy
 	void rotate_vert(float angle);					// rotate arond local Ox

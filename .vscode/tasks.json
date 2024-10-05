@@ -24,7 +24,7 @@
 				"kind": "build",
 				"isDefault": true
 			},
-			"detail": "compiler: D:/Soft/MinGW/bin/g++.exe"		// Путь к компилятору
+			"detail": "compiler: E:/Soft/MinGW/bin/g++.exe"		// Путь к компилятору
 		}
 	]
 }

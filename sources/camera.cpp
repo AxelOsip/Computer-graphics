@@ -17,7 +17,7 @@ ivec3 Camera::projection(vec4 pt){
 }
 
 
-int8 Camera::getSect(vec4 pt){
+uint8 Camera::getSect(vec4 pt){
 	// bits: 0 - left, 1 - down, 2 - right, 3 - up, 4 - back
 
 	vec4 scale = VEC4_scale(0.5);
@@ -28,7 +28,7 @@ int8 Camera::getSect(vec4 pt){
 		position + right*scale - up*scale
 	};
 
-	int8 sect = 0;
+	uint8 sect = 0;
 
 	// checking truncated piramide sides
 	for (int i = 0; i < 4; i++){
@@ -44,8 +44,8 @@ int8 Camera::getSect(vec4 pt){
 
 int Camera::cutLine(vec4 &pt_1, vec4 &pt_2){
 	
-	int8 sect_1 = getSect(pt_1);
-	int8 sect_2 = getSect(pt_2);
+	uint8 sect_1 = getSect(pt_1);
+	uint8 sect_2 = getSect(pt_2);
 	
 	if (!sect_1 && !sect_2)		// full visible
 		return SUCCESS;
@@ -97,6 +97,56 @@ int Camera::cutLine(vec4 &pt_1, vec4 &pt_2){
 		return FAIL;		// full invisible (different sectors)
 	}
 	return SUCCESS;			// part visible
+}
+
+
+int Camera::cutSurface(Array<vec4> &surface){
+	
+	static Array<uint8> sectors{0};
+	uint8 full_visible = 0;		// 00000000
+	uint8 full_invisible = 31;	// 00011111
+	int cross_count = 0;
+	vec4 cross;
+
+	vec4 scale = VEC4_scale(0.5);
+	vec4 corners[4] = {			// canvas corners with camera position and orientation
+		position - right*scale - up*scale,
+		position - right*scale + up*scale,
+		position + right*scale + up*scale,
+		position + right*scale - up*scale
+	};
+
+	for (int i = 0; i < surface.size; i++){
+		uint8 sect = getSect(surface[i]);
+		sectors[i] = sect;
+		full_visible = !full_visible && !sect;
+		full_invisible = full_invisible & sect;
+		// bits_debug(sect);
+	}
+	
+
+	if (full_visible)			// full visible
+		return SUCCESS;
+	
+	if (full_invisible)			// full invisible
+		return FAIL;
+
+	for (int i = 0; i < 4; i++){
+		for (int j = 0; j < surface.size; j++){
+			int k = (j+1)%surface.size;
+			
+			if (!(sectors[j] | sectors[k]) & (1 << i))
+				continue;
+
+			if (lineCrossSurf(surface[j], surface[k], corners[i], corners[(i+1)%4], position + focus, cross))
+				cross_count++;
+		}
+	}
+
+	if (!cross_count)
+		return FAIL;			// full invisible (different sectors)
+
+	return SUCCESS;				// part visible
 }
 
 
